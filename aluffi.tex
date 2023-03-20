@@ -1,0 +1,1450 @@
+\documentclass[a4paper, 11pt]{book}
+\usepackage{comment} % enables the use of multi-line comments (\ifx \fi) 
+\usepackage{lipsum} %This package just generates Lorem Ipsum filler text. 
+\usepackage{fullpage} % changes the margin
+\usepackage[a4paper, total={7in, 10in}]{geometry}
+
+%\usepackage{tgadventor} % The font for the entire document can be changed here
+%\usepackage{courier}
+%\usepackage{charter}
+\usepackage{tgcursor}
+
+\usepackage{mathrsfs} 
+\usepackage{quiver} 
+\newtheorem{corollary}{Corollary}
+\usepackage{graphicx}
+\usepackage{tikz}
+
+\usetikzlibrary{arrows}
+\usepackage{verbatim}
+\usepackage[numbered]{mcode}
+\usepackage{float}
+\usepackage{tikz}
+    \usetikzlibrary{shapes,arrows}
+    \usetikzlibrary{arrows,calc,positioning}
+
+    \tikzset{
+        block/.style = {draw, rectangle,
+            minimum height=1cm,
+            minimum width=1.5cm},
+        input/.style = {coordinate,node distance=1cm},
+        output/.style = {coordinate,node distance=4cm},
+        arrow/.style={draw, -latex,node distance=2cm},
+        pinstyle/.style = {pin edge={latex-, black,node distance=2cm}},
+        sum/.style = {draw, circle, node distance=1cm},
+    }
+\usepackage{xcolor}
+\usepackage{mdframed}
+\usepackage[shortlabels]{enumitem}
+\usepackage{indentfirst}
+\usepackage{hyperref}
+\usepackage{amsmath,amsfonts,amsthm, amssymb}
+\usepackage{array}
+\usepackage[all,textures]{xy}
+\usepackage{graphicx}
+\usepackage{alltt}
+\usepackage{listings}
+\usepackage{float}
+\usepackage{tabu}
+\usepackage{longtable}
+
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Proposition}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+
+\newtheorem{question}[theorem]{Question}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{problem}[theorem]{Problem}
+    
+\renewcommand{\thesubsection}{\thesection.\alph{subsection}}
+
+
+% Define solution environment
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Original packages, custom environments, and custom commands below
+  \usepackage{amsmath,amsfonts,amsthm, amssymb}
+  \usepackage{fullpage}
+  \usepackage{array}
+  \usepackage[all,textures]{xy}
+  \usepackage{graphicx}
+  \usepackage{alltt}
+  \usepackage{listings}
+  \usepackage{float}
+  \usepackage{tabu}
+  \usepackage{longtable}
+  \usepackage{lipsum}
+  \usepackage[T1]{fontenc}
+  
+  \theoremstyle{plain}
+  \newtheorem{innercustomgeneric}{\customgenericname}
+\providecommand{\customgenericname}{}
+\newcommand{\newcustomtheorem}[2]{%
+  \newenvironment{#1}[1]
+  {%
+   \renewcommand\customgenericname{#2}%
+   \renewcommand\theinnercustomgeneric{##1}%
+   \innercustomgeneric
+  }
+  {\endinnercustomgeneric}
+}
+
+\newcustomtheorem{definition}{Definition}
+\newcustomtheorem{lemma}{Lemma}
+
+\newcommand{\mb}{\mathbf}
+\newcommand{\arr}{\rightarrow}
+\newcommand{\op}{\text{op}}
+
+  \setlength{\parindent}{0pt}
+ 
+ 
+ \newtheorem{thm}{Exercise}
+\begin{document}
+  \begin{titlepage}
+	\centering % Center everything on the title page
+	\scshape % Use small caps for all text on the title page
+	\vspace*{1.5\baselineskip} % White space at the top of the page
+% ===================
+%	Title Section 	
+% ===================
+
+	\rule{13cm}{1.6pt}\vspace*{-\baselineskip}\vspace*{2pt} % Thick horizontal rule
+	\rule{13cm}{0.4pt} % Thin horizontal rule
+	
+		\vspace{0.75\baselineskip} % Whitespace above the title
+% ========== Title ===============	
+	{	\Huge Category Theory\\ 
+			\vspace{4mm}
+		Book by Steve Awodey \\	}
+% ======================================
+		\vspace{0.75\baselineskip} % Whitespace below the title
+	\rule{13cm}{0.4pt}\vspace*{-\baselineskip}\vspace{3.2pt} % Thin horizontal rule
+	\rule{13cm}{1.6pt} % Thick horizontal rule
+	
+		\vspace{1.75\baselineskip} % Whitespace after the title block
+% =================
+%	Information	
+% =================
+	{\large : 
+		\vspace*{1.2\baselineskip}
+	} \\
+	\vfill
+
+\end{titlepage}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begingroup
+\let\cleardoublepage\clearpage
+\tableofcontents
+\endgroup
+
+
+\chapter{Preliminaries: Set theories and categories}
+  \section{Naive Set Theory, Sets}
+  \begin{exercise}
+  Russel's paradox.
+  \end{exercise}
+  \begin{proof}
+  Assume that $R = \{x~\vert~x\notin x\}$ is a set. There are two options, either $R\in R$ or $R\notin R$. But if $R\in R$, then $R$ satisfies the condition to be in $R$ which is $R\notin R$. Contradiction. Thus $R\notin R$ must hold. Hence $R$ cannot satisfy the condition to be in $R$. Thus $R\notin R$ is false. Contradiction.
+\end{proof}
+  
+\begin{exercise}
+If $\sim$ is an equivalence relation on a set $S$, then the corresponding family $\mathcal{P}_\sim$ is a partition of $S$: that is, its elements are nonempty, disjoint and their union in $S$.  
+\end{exercise}
+ \begin{proof}
+ An arbitrary element of $\mathcal{P}_\sim$ is $[s]_\sim$ with $s\in S$. We have $[s]_\sim =\{t\in S~\vert~t\sim s\}$. From reflexivity, we get that $s\in [s]_\sim$. Hence each $[s]_\sim$ is non-empty. It clearly also follows then that
+$$S = \bigcup_{s\in S}[s]_\sim = \bigcup\mathcal{P}_\sim.$$
+Now consider $s,t\in S$, and assume that $[s]_\sim\cap [t]_\sim \neq \emptyset$. Thus there is some $u\in [s]_\sim \cap [t]_\sim$. Hence we have that $u\sim s$ and $u\sim t$. From symmetry, we obtain that $s\sim u$ and $u\sim t$. Hence $s \sim t$ by transitivity. From symmetry we also have $t\sim s$. We now prove that $[s]_\sim = [t]_\sim$. Take $v\in [s]_\sim$, then $v\sim s$. We also have $s\sim t$, hence from transitivity it follows that $v\sim t$ hence $v\in [t]_\sim$. Conversely, if $v\in [t]_\sim$, then $v\sim t$. Since we also have $t\sim s$, it follows from transitivity that $v\sim s$ and thus $v\in [t]_\sim$. Thus we have shown that if $[s]_\sim\cap [t]_\sim\neq \emptyset$, then $[s]_\sim = [t]_\sim$. We obtain by contraposition that if $[s]_\sim$ and $[t]_\sim$ are distinct, then their intersection is empty.
+ \end{proof}
+ \begin{exercise}
+ Given a partition $\mathcal{P}$ on a set $S$, there is an equivalence relation $\sim$ such that $\mathcal{P}$ is the associated partition.
+\end{exercise}
+\begin{proof}
+Define $a\sim b$ if and only if  there is some $A\in \mathcal{P}$ such that $a,b\in A$. \\
+Let us prove that the relation is an equivalence relation. Take any $a\in S$. Since $\mathcal{P}$ is a partition, there is some $A\in \mathcal{P}$ such that $a\in A$. Hence $a\sim a$ and thus the relation is reflexive.\\
+Assume that $a\sim b$, then there is some $A\in \mathcal{P}$ such that $a,b\in A$. But then clearly $b,a\in A$. Hence $b\sim a$. Hence the relation is symmetric.\\
+Assume that $a\sim b$ and $b\sim c$, then there are $A,B\in \mathcal{P}$ such that $a,b\in A$ and $b,c\in B$. But then $b\in A\cap B$. By the property of a partition, we get that $A=B$. Hence $a,c\in A$. Thus $a\sim c$. And the relation is transitive.\\
+Now take any $a\in S$. There is a unique $A\in \mathcal{P}$ such that $a\in A$. Then
+$$[a]_\sim = \{b\in S~\vert a\sim b\} = \{b\in S~\vert~b\in A\} = A.$$
+Hence $[a]_\sim\in \mathcal{P}$. Conversely, take $A\in \mathcal{P}$. Since $\mathcal{P}$ is nonempty, we can find some $a\in A$. Hence again we get $A = [a]_\sim$. Thus the partition associated with $\sim$ is $\mathcal{P}$.
+\end{proof}
+
+\begin{exercise}
+How many different equivalence relations can be defined on the set $\{1,2,3,\}$.
+\end{exercise}
+\begin{proof}
+Let $R$ be some equivalence relation on the set. The relation is certainly reflexive. Thus $(1,1),(2,2),(3,3)\in R$. There are two possibilities:
+\begin{enumerate}
+\item $(1,2)\in R$\\
+By symmetry, we have $(2,1)\in R$. There are again two possibilities:
+\begin{enumerate}
+\item $(2,3)\in R$\\
+Then by symmetry, we have $(3,2)\in R$. And by transitivity, we have $(1,3),(3,1)\in R$. Hence
+$$R = \{(1,1),(2,2),(3,3),(1,2),(2,1),(1,3),(3,1),(2,3),(3,2)\}$$
+\item $(2,3)\notin R$\\
+We cannot have $(3,2)\in R$ by symmetry. And by transitivity, we cannot have either $(1,3)$ or $(3,1)\in R$. Thus
+$$R = \{(1,1),(2,2),(3,3),(1,2),(2,1)\}$$
+\end{enumerate}
+\item $(1,2)\notin R$\\
+We cannot have $(2,1)\in R$ by transitivity. There are again two possibilities:
+\begin{enumerate}
+\item $(2,3)\in R$.\\
+Now we have $(3,2)\in R$ by symmetry. We cannot have $(1,3)$ or $(3,1)$ in $R$ by transitivity, thus
+$$R = \{(1,1),(2,2),(3,3),(2,3),(3,2)\}$$
+\item $(2,3)\notin R$.\\
+We cannot have $(3,2)\in R$ by symmetry. There are two possibilities:
+\begin{enumerate}
+\item $(1,3)\in R$.\\
+We must have $(3,1)\in R$ and this is all, thus
+$$R = \{(1,1),(2,2),(3,3),(1,3),(3,1)\}$$
+\item $(1,3)\notin R$.\\
+We cannot have $(3,1)\in R$ by symmetry, thus we must have
+$$R= \{(1,1),(2,2),(3,3)\}$$
+\end{enumerate}
+\end{enumerate}
+\end{enumerate}
+We obtain $5$ equivalence relations on $\{1,2,3\}$.
+\end{proof}
+
+\begin{exercise}
+Give an example of a relation that is reflexive and symmetric but not transitive.
+What happens if you attempt to use this relation to define a partition on the set'
+\end{exercise}
+\begin{proof}
+For example, take the set $S=\{1,2,3\}$ and take the relation $R= \{(1,1),(2,2),(3,3),(1,2),(2,1),(2,3),(3,2)\}$. This is clearly reflexive and symmetric, but not transitive. If we take any reflexive and symmetric relation $\sim$, we can set
+$$[a]_\sim = \{b\in X~\vert~a\sim b\}$$
+We would still have them non-empty and covering $X$. But they are not anymore disjoint, except if the relation is transitive.
+\end{proof}
+
+\begin{exercise}
+Define a relation $\sim$ on $\mathbb{R}$ by setting
+$$a\sim b~\Leftrightarrow~a-b\in\mathbb{Z}.$$
+Then $\sim$ is an equivalence relation and $\mathbb{R}/\sim$ can be identified with the circle. Analogously, define $\equiv$ on $\mathbb{R}\times \mathbb{R}$ by setting
+$$(a,b)\equiv (c,d)~\Leftrightarrow~a-c\in \mathbb{Z},~b-d\in \mathbb{Z},$$
+and $\mathbb{R}\times \mathbb{R}/\equiv$ can be identified with a torus.
+\end{exercise}
+\begin{proof}
+First to prove that $\sim$ is an equivalence relation:
+\begin{enumerate}
+\item $a\sim a$ since $a-a=0\in \mathbb{Z}$.
+\item If $a\sim b$, then $a-b\in \mathbb{Z}$. Hence $b-a = -(a-b)\in \mathbb{Z}$. Thus $b\sim a$.
+\item If $a\sim b$ and $b\sim c$. Then $a-b\in \mathbb{Z}$ and $b-c\in \mathbb{Z}$. Hence $a-c=(a-b)+(b-c)\in \mathbb{Z}$. Hence $a\sim c$.
+\end{enumerate}
+Now we make a function
+$$f:\mathbb{R}/\sim\rightarrow S^1:[x]\rightarrow (\cos(2\pi x), \sin(2\pi x)).$$
+This is well-defined since if $[x]=[y]$, then $x-y\in \mathbb{Z}$. Hence there is some $n\in \mathbb{Z}$ such that $x=y+n$. Then
+$$(\cos(2\pi x), \sin(2\pi x)) = (\cos(2\pi y + 2\pi n), \sin(2\pi y  + 2\pi n)) = (\cos(2\pi y), \sin(2\pi y)),$$
+hence $f$ is well-defined. To prove that the function is injective, assume that $f([x]) = f([y])$. This means that 
+$$\cos(2\pi x) = \cos(2\pi y),~\sin(2\pi x) = \sin(2\pi y),$$
+then clearly $x-y\in \mathbb{Z}$. Finally it is obvious that $f$ is surjective since every element of $S^1$ can be expressed as $(\cos(2\pi x), \sin(2\pi x)) = f([x])$.\\\\
+
+For the second, we prove that $\equiv$ is an equivalence relation.
+\begin{enumerate}
+\item $(a,b)\equiv (a,b)$ since $a-a=0\in \mathbb{Z}$ and $b-b=0\in \mathbb{Z}$.
+\item Assume that $(a,b)\equiv (c,d)$. Then $a-c\in \mathbb{Z}$ and $b-d\in \mathbb{Z}$. Hence $c-a = -(a-c)\in \mathbb{Z}$ and $d-b = -(b-d)\in \mathbb{Z}$. Thus $(c,d)\equiv (a,b)$.
+\item Assume that $(a,b)\equiv (c,d)$ and $(c,d)\equiv (e,f)$. Then $a-c\in \mathbb{Z}$ and $b-d\in \mathbb{Z}$ and $c-e\in \mathbb{Z}$ and $d-f\in \mathbb{Z}$. Hence $a-e = (a-c)+(c-e)\in \mathbb{Z}$ and $b-f = (b-d)+(d-f)\in \mathbb{Z}$. Hence $(a,b)\equiv (e,f)$.
+\end{enumerate}
+Finally, we make a function
+$$g:(\mathbb{R}\times \mathbb{R})/\equiv \rightarrow S^1\times S^1$$
+by setting $g([(x,y)])\rightarrow (f([x]), f([y])$. To prove $g$ is well-defined, take $[(x,y)] = [(a,b)]$, then $x-a\in \mathbb{Z}$ and $y-b\in \mathbb{Z}$. Thus $x\sim a$ and $y\sim b$. But this means that $f([x]) = f([a])$ and $f([y]) = f([b])$. To prove that $g$ is injective, assume that $g([(x,y)]) = g([(a,b)])$. Thus $(f([x]), f([y])) = (f([a]), f([b]))$. Thus $f([x]) = f([a])$ and $f([y]) = f([b])$. Since $f$ is injective, we see that $[x]=[a]$ and $[y] = [b]$, meaning that $x-a\in \mathbb{Z}$ and $y-b\in \mathbb{Z}$, hence $[(x,y)]=[(a,b)]$. Finally, it is clear that $g$ is injective since $f$ is. Indeed, take $(a,b)\in S^1\times S^1$. Then there is some $x,y\in \mathbb{R}$ such that $f([x]) = a$ and $f([y]) = b$. Hence $g([x,y]) = (a,b)$.
+\end{proof}
+
+\section{Functions between sets}
+\begin{exercise}
+How many different bijections are there between a set $S$ and itself.
+\end{exercise}
+\begin{proof}
+Assume that $S = \{s_1,...,s_n\}$. In order to construct a bijection $f:S\rightarrow S$, we need to choose the image of $s_1$. There are $n$ choices, namely $s_1$,..., $s_n$. Next we choose the image of $s_2$, there are $n-1$ choices, namely $\{s_1,...,s_n\}\setminus\{f(s_1)\}$. We continue this process and see that we have $n(n-1)(n-2)....3\cdot 2\cdot 1$ options. Hence there are $n!$ bijections between $S$ and itself.
+\end{proof}
+
+\begin{exercise}
+Assume $A\neq \emptyset$. Let $f:A\rightarrow B$ be a function. Then $f$ has a right-inverse if and only if it is surjective.
+\end{exercise}
+\begin{proof}
+Let $g$ be a right-inverse of $f$. Take $b\in B$ and let $a=g(b)$. Then
+$$f(a) = f(g(b)) = (f\circ g)(b) =b$$
+hence $f$ is surjective.\\
+Conversely, let $f$ be surjective. For any $b\in B$, define $g(b)$ by taking an arbitrary element in $f^{-1}(b)$, which exists by surjectivity. Then since $g(b)\in f^{-1}(b)$, we get $f(g(b)) = b$, thus $g$ is a right-inverse.
+\end{proof}
+
+\begin{exercise}
+The inverse of a bijection is a bijection and the composition of two bijections is a bijection.
+\end{exercise}
+\begin{proof}
+Let $f$ be a bijection and let $g$ be its inverse. Then $fg= 1$ and $gf= 1$. Hence $f$ is the inverse of $g$ and $g$ is a bijection.\\
+Let $f$ and $g$ be two bijections then 
+$$fgg^{-1}f^{-1}= f1f^{-1} = ff^{-1} = 1$$
+and
+$$g^{-1}f^{-1}fg = g^{-1}1g = g^{-1}g = 1.$$
+Hence $fg$ is a bijection with inverse $g^{-1}f^{-1}$.
+\end{proof}
+
+\begin{exercise}
+The notion of being isomorphic is an equivalence relation.
+\end{exercise}
+\begin{proof}
+Let $A$ be any set, then $\text{id}_A:A\rightarrow A$ is a bijection. Thus $A$ is related to $A$ and hence the relation is reflexive.\\
+Let $A$ be related to $B$, then there is a bijection $f:A\rightarrow B$. The inverse $f^{-1}:B\rightarrow A$ is also a bijection, hence $B$ is related to $A$ and thus the relation is symmetric.\\
+Let $A$ be related to $B$ and $B$ be related to $C$, then there are bijections $f:A\rightarrow B$ and $g:B\rightarrow C$. The composition $g\circ f:A\rightarrow C$ is then a bijection. Hence $A$ is related to $C$ and thus the relation is transitive.
+\end{proof}
+
+\begin{exercise}
+A function $e:A\rightarrow B$ is an epimorphism if for all functions $u,v:B\rightarrow C$ holds that if $u\circ e= v\circ e$ then $u=v$. Then $e$ is an epimorphism iff it is surjective.
+\end{exercise}
+\begin{proof}
+Assume first that $e$ is surjective and that $u\circ e = v\circ e$. If $u\neq v$, then there is some $b\in B$ such that $u(b)\neq v(b)$. But since $e$ is surjective, there is some $a\in A$ such that $e(a) = b$. But then $u(e(a)) \neq v(e(a))$ contradicting the fact that $u\circ e=v\circ e$. Thus $e$ is an epimorphism.\\
+Conversely, assume that $e$ is an epimorphism. Define $B' = e(A)\subseteq B$. Define $$u:B\rightarrow \{0,1\}:b\rightarrow 0$$
+and define
+$$v:B\rightarrow \{0,1\}:b\rightarrow \left\{\begin{array}{ll}
+0~\text{if}~b\in B'\\ 1~\text{if}~b\notin B'
+\end{array}\right.$$
+Then clearly for any $a\in A$, we have $e(a)\in B'$, thus
+$$v(e(a)) = 0 = u(e(a)),$$
+hence $v\circ e=u\circ e$. Hence $v=u$ because $e$ is an epimorphism. This implies that there is no $b\in B$ such that $v(b)=1$, or equivalently, $B'=B$. Thus $e(A)=B$ and $e$ is surjective.
+\end{proof}
+
+\begin{exercise}
+Any function $f:A\rightarrow B$ determines a section of $\pi_A$.
+\end{exercise}
+\begin{proof}
+Indeed, define $F:A\rightarrow A\times B:a\rightarrow (a,f(a))$. This is a section since
+$$(\pi_A\circ F)(a) = \pi_A(a,f(a)) = a.$$
+\end{proof}
+
+\begin{exercise}
+Let $f:A\rightarrow B$ be any function. Then the graph $\Gamma_f$ of $f$ is isomorphic to $A$.
+\end{exercise}
+\begin{proof}
+We let
+$$p_1:\Gamma_f\rightarrow A:(a,b)\rightarrow a,$$
+and we let
+$$i:A\rightarrow \Gamma_f:a\rightarrow (a,f(a)).$$
+This is an inverse pair:
+$$p_1(i(a)) = p_1(a,f(a)) = a$$
+and if $(a,b)\in \Gamma_f$, then $b=f(a)$, hence
+$$i(p_1(a,b)) = i(a) = (a,f(a)) = (a,b).$$
+\end{proof}
+
+\begin{exercise}
+Describe as explicitly as you can all terms in the canonical decomposition of the function $$f:\mathbb{R}\rightarrow \mathbb{C}: x\rightarrow e^{2\pi i x}.$$
+\end{exercise}
+\begin{proof}
+Let $\sim$ be the equivalence
+$$x\sim y~\text{if and only if}~x-y\in \mathbb{Z},$$
+as in $1.6$. We have that $x\sim y$ if and only if $f(x)=f(y)$. Furthermore, the image of $f$ is the circle $\mathbb{S}^1$. So the canonical decompostion is first the quotient $\mathbb{R}\rightarrow \mathbb{R}/\sim$. Then the isomorphism between $\mathbb{R}/\sim$ and the circle, and then the inclusion of the cirle in $\mathbb{C}$.
+\end{proof}
+
+\begin{exercise}
+If $A'\cong A''$ and if $B'\cong B''$ and if further $A'\cap B' =\emptyset = A''\cap B''$, then $A'\cup B'\cong A''\cup B''$. As a consequence, the disjoint union of $A$ and $B$ is well-defined up to isomorphism.
+\end{exercise}
+\begin{proof}
+Takee a bijection $f:A'\rightarrow A''$ and a bijection $g:B'\rightarrow B''$. Then define $h:A'\cup B'\rightarrow A''\cup B''$ by setting
+$$h(x) = \left\{\begin{array}{ll}
+f(x) & \text{if}~x\in A'\\
+g(x) & \text{if}~x\in B' \end{array}\right.$$
+It is clear that $h$ is a well-defined function since $A'$ and $B'$ are disjoint. It is further clear that $h$ is surjective since $f$ and $g$ are. Injectivity is clear, since if $h(x) = h(y)$, then either $x,y\in A'$ or $x,y\in B'$ in which case $x=y$ by injectivity of $f$ and $g$, or we have that $x\in A'$ and $y\in B'$ (or the similar case $x\in B'$ and $y\in A'$), in which case we have $f(x) = g(y)\in A''\cap B''$, which is a contradiction since $A''\cap B''$ is empty.
+\end{proof}
+
+\begin{exercise}
+If $A$ and $B$ are finite sets, then $|B^A| = |B|^{|A|}$.
+\end{exercise}
+\begin{proof}
+Let $A=\{a_1,...,a_n\}$ and $B=\{b_1,...,b_m\}$. Any function from $A$ to $B$ is defined by first choosing the image of $a_1$ ($m$ possibilities), then choosing the image of $a_2$ ($m$ possibilities), and so on until all elements have an image. In total we makes $n$ choices with each $m$ possibilities. We end up with $m\cdot ...\cdot m$ possibilities, which is $m^n$. So there are $m^n$ amount of functions.
+\end{proof}
+
+\begin{exercise}
+There is a bijection between $2^A$ and the power set of $A$.
+\end{exercise}
+\begin{proof}
+Take $f:A\rightarrow \{0,1\}$, then define
+$$F:2^A\rightarrow \mathcal{P}(A)$$
+as
+$$F(f) = \{x\in A~\vert~f(x) = 1\}.$$
+We show this is injective. Take $f,g:A\rightarrow \{0,1\}$ such that $F(f) = F(g)$. Thus if $x\in A$, then $x\in F(f)$ if and only if $x\in F(g)$. Hence $f(x)= 1$ if and only if $g(x)=1$. This implies  that $f=g$.\\
+To show the function is surjective, take $B\subseteq A$. Define the function $f:A\rightarrow \{0,1\}$ by setting $f(x) = 1$ if $x\in A$ and $0$ otherwise. Then we clearly have $F(f) = B$.
+\end{proof}
+
+\section{Categories}
+\begin{exercise}
+Let $\mathcal{C}$ be a category. Consider a structure $\mathcal{C}^\text{op}$ with
+\begin{itemize}
+\item $\text{Obj}(\mathcal{C}^\text{op}) := \text{Obj}(\mathcal{C})$
+\item For $a,B$ objects of $\mathcal{C}^\text{op}$ (hence objects of $\mathcal{C}$, $\text{Hom}_{\mathcal{C}^\text{op}}(A,B) := \text{Hom}_\mathcal{C}(B,A)$.
+\end{itemize}
+\end{exercise}
+\begin{proof}
+Define for $f\in \text{Hom}_{\mathcal{C}^\text{op}}(A,B)$ and $g\in \text{Hom}_{\mathcal{C}^\text{op}}(B,C)$,
+$$g\circ^\text{op} f = f\circ g$$
+and
+$$(1_A)^\text{op} = 1_A.$$
+We check associativity, if $f\in \text{Hom}_{\mathcal{C}^\text{op}}(A,B)$ and $g\in \text{Hom}_{\mathcal{C}^\text{op}}(B,C)$ and $h\in \text{Hom}_{\mathcal{C}^\text{op}}(C,D)$, then
+\begin{eqnarray*}
+h\circ^\text{op} (g\circ^\text{op} f) 
+& = & 
+h\circ^\text{op} (f\circ g)\\
+& = & (f\circ g)\circ h\\
+& = & f\circ (g\circ h)\\
+& = & f\circ (h\circ^\text{op} g)\\
+& = & (h\circ^\text{op} g)\circ^\text{op} f
+\end{eqnarray*}
+Now we also have that
+$$(1_B)^\text{op}\circ^\text{op} f = f\circ 1_B = f$$
+and
+$$f\circ^\text{op} (1_A)^\text{op} = 1_A\circ f= f,$$
+hence we have a category.
+\end{proof}
+
+\begin{exercise}
+If $A$ is a finite set, how large is $\text{End}_\text{SET}(A)$.
+\end{exercise}
+\begin{proof}
+We know that $\text{End}_\text{SET}(A)$ are just all the functions from $A$ to $A$. WE have proven that the amount of such functions is just $|A|^{|A|}$.
+\end{proof}
+
+\begin{exercise}
+In example 3.3, $1_a$ is an identity with respect to composition.
+\end{exercise}
+\begin{proof}
+Let $f\in \text{Hom}(a,b)$ and $g\in \text{Hom}(b,a)$, then necessarily $f=(a,b)$, $g=(b,a)$ and $1_a = (a,a)$. We have $f1_a = (a,a) = f$ and $1_ag=(a,a)=g$.
+\end{proof}
+
+\begin{exercise}
+Can we define a category in the style of Example $3.3$ using the relation $<$ on the set $\mathbb{Z}$?
+\end{exercise}
+\begin{proof}
+No, since the relation $<$ is not reflexive.
+\end{proof}
+
+\begin{exercise}
+Example $3.4$ is an instance of the categories considered in Example $3.3$.
+\end{exercise}
+\begin{proof}
+Indeed, this is easy to see by taking for $A,B\in \mathcal{P}(S)$, the relation $A\sim B$ if and only if $A\subseteq B$.
+\end{proof}
+
+\begin{exercise}
+Define a category $V$ by taking $\text{Obj}(V) = \mathbb{N}$ and letting $\text{Hom}_V(n,m)$ be the set of $m\times n$-matrices with real entries, for all $n,m\in \mathbb{N}$. Use product of matrices to define composition.
+\end{exercise}
+\begin{proof}
+Take $A\in \text{Hom}_V(n,m)$, $B\in \text{Hom}_V(m,k)$ and $C\in \text{Hom}_V(k,l)$. Then $A$ is an $m\times n$-matrix, $B$ is an $k\times m$-matrix and $C$ is an $l\times k$-matrix. We have
+$$C\circ (B\circ A) = C(BA) = (CB)A = (C\circ B)\circ A$$
+Let $A\in \text{Hom}_V(n,m)$, then $A$ is an $m\times n$-matrix. Let $I_n$ be the $n\times n$-identity matrix and let $I_m$ be the $m\times m$-identity matrix. We have
+$$A\circ I_n = AI_n = A$$
+and
+$$I_m\circ A = I_mA = A.$$
+Hence we have a category.
+\end{proof}
+
+\begin{exercise}
+What are the objects and morphisms in Example 3.7.
+\end{exercise}
+\begin{proof}
+Objects in this category are arrows $A\rightarrow Z$ in $\mathcal{C}$. Let $f_1:A\rightarrow Z_1$ and $f_2:A\rightarrow Z_2$ be arrows in $\mathcal{C}$. Then a morphism is a commutative diagram
+$$\xymatrix{
+& A\ar[ld]_{f_2}\ar[rd]^{f_1} & \\
+Z_1\ar[rr]_\sigma & & Z_2
+}$$
+
+Composition then becomes
+$$\xymatrix{
+& & A\ar[lld]_{f_1} \ar[d]_{f_2} \ar[rrd]^{f_3} & & \\
+Z_1\ar[rr]_\sigma & & Z_2\ar[rr]_\tau & & Z_3
+}$$
+
+\end{proof}
+
+\begin{exercise}
+A subcategory $\mathcal{C}^\prime$ of a category $\mathcal{C}$ consists of a collection of objects of $\mathcal{C}$, with morphisms $\text{Hom}_{\mathcal{C}^\prime}(A,B)\subseteq \text{Hom}_\mathcal{C}(A,B)$ for all objects $A,B\in \text{Obj}(\mathcal{C}^\prime)$, such that identities and composition in $\mathcal{C}$ make $\mathcal{C}^\prime$ into a category. A subcategory is full if $\text{Hom}_{\mathcal{C}^\prime}(A,B)=\text{Hom}_\mathcal{C}(A,B)$ for all $A,B$ in $\text{Obj}(\mathcal{C}^\prime)$. Construct a category of infinite sets and explain how it may be viewed as a full subcategory of $\textbf{Set}$.
+\end{exercise}
+\begin{proof}
+Let the objects of $\mathcal{C}$ be all the infinite sets. Given two infinite sets, let the morphisms between them be all functions between them. This clearly defines a full subcategory of $\textbf{Set}$.
+\end{proof}
+
+\begin{exercise}
+An alternative to the notion of multiset introduced in \S 2.2 is obtained by considering sets endowed with equivalence relations; equivalent elements are taken
+to he multiple instances of elements 'of the same kind'. Define a notion of morphism between such enhanced sets, obtaining a category MSet containing (a 'copy' of) Set
+as a full subcategory. (There may be more than one reasonable way to do this! This is intentionally an open-ended exercise.) Which objects in MSet determine
+ordinary multisets as defined in §2.2 and how? Spell out what a morphism of multisets would be from this point of view. (There are several natural notions
+of morphisms of multisets. Try to define morphisms in MSet so that the notion you obtain for ordinary multisets captures your intuitive understanding of these
+objects.)
+\end{exercise}
+\begin{proof}
+Given two multisets $(A,\sim)$ and $(B,\sim)$. A morphism is a function $f:A\rightarrow B$ such that $a\sim a'$ implies $f(a)\sim f(a')$. It is clear then that $\mathbf{Set}$ is a full subcategory of the category of multisets, since if $A$ is any set, then the equivalence class of any element is a singleton.\\
+If we take a multiset $m:A\rightarrow \mathbb{N}^*$, this correspond to an alternative multiset $(A,\sim)$ such that the equivalence class of any element is finite. A morphism from this point of view would send equal elements to equal elements.
+\end{proof}
+
+\begin{exercise}
+Since the objects of a category $\mathcal{C}$ are not (necessarily) sets, it is not clear how to make sense of a notion of 'subobject' in general. In some situations it does make sense to talk about subobjects, and the subobjects of any given object $A$ in
+$\mathcal{C}$ are in one-to-one correspondence with the morphims $A\rightarrow \Omega$ for a fixed, special object $\Omega$ of $\mathcal{C}$, called a subobject classifier. Show that \textbf{Set} has a subobject classifier.
+\end{exercise}
+\begin{proof}
+The subobject classifier is $\Omega = \{0,1\}$. Indeed, given any morphism $f:A\rightarrow \Omega$, this corresponds to the subobject $A' = \{x\in A~\vert~f(x)=1\}$. And given any subobject $A'$ of $A$, we can define the morphism by sending each element of $A'$ to $1$ and the rest of the elements to $0$.
+\end{proof}
+
+\begin{exercise}
+Define composition and identities in the category $C^{A,B}$ of Example $3.9$, and of the category $C^{\alpha,\beta}$ of Example $3.10$.
+\end{exercise}
+\begin{proof}
+Objects of $C^{A,B}$ are diagrams
+$$\xymatrix{
+A\ar[rrd]^{f}& &\\
+ & & Z\\
+B\ar[rru]_g& &
+}$$
+and a morphism is a commutative diagram
+$$\xymatrix{
+A\ar[rrd]_{f_1}\ar[rrrrd]^{f_2} & & & & \\
+& & Z_1\ar[rr]^{\sigma} & & Z_2\\
+B\ar[rru]^{g_1}\ar[rrrru]_{g_2} & & & & 
+}$$
+Thus the identity is
+$$\xymatrix{
+A\ar[rrd]_{f}\ar[rrrrd]^{f} & & & & \\
+& & Z\ar[rr]^{\text{id}_Z}& & Z\\
+B\ar[rru]^{g}\ar[rrrru]_{g} & & & & 
+}$$
+And compositions are
+$$\xymatrix{
+A\ar[d]_{f_1}\ar[rrd]_{f_2}\ar[rrrrd]^{f_3} & & & & \\
+Z_1\ar[rr]^\sigma & & Z_2\ar[rr]^{\tau} & & Z_3\\
+B\ar[u]^{g_1}\ar[rru]^{g_2}\ar[rrrru]_{g_3} & & & & 
+}$$
+As for $C_{\alpha,\beta}$, objects are diagrams
+$$\xymatrix{
+& & A\ar[rrd]^{f}& &\\
+C\ar[rru]^\alpha \ar[rrd]_\beta & & & & Z\\
+& & B\ar[rru]_g& &
+}$$
+and a morphism is a commutative diagram
+$$\xymatrix{
+& & A\ar[rrd]_{f_1}\ar[rrrrd]^{f_2} & & & & \\
+C\ar[rru]^\alpha\ar[rrd]_\beta & & & & Z_1\ar[rr]^{\sigma} & & Z_2\\
+& & B\ar[rru]^{g_1}\ar[rrrru]_{g_2} & & & & 
+}$$
+Thus the identity is
+$$\xymatrix{
+& & A\ar[rrd]_{f}\ar[rrrrd]^{f} & & & & \\
+C\ar[rru]^\alpha\ar[rrd]_\beta & & & & Z\ar[rr]^{\text{id}_Z}& & Z\\
+& & B\ar[rru]^{g}\ar[rrrru]_{g} & & & & 
+}$$
+And compositions are
+$$\xymatrix{
+& & A\ar[d]_{f_1}\ar[rrd]_{f_2}\ar[rrrrd]^{f_3} & & & & \\
+C\ar[rru]^\alpha\ar[rrd]_\beta & & Z_1\ar[rr]^\sigma & & Z_2\ar[rr]^{\tau} & & Z_3\\
+& & B\ar[u]^{g_1}\ar[rru]^{g_2}\ar[rrrru]_{g_3} & & & & 
+}$$
+\end{proof}
+
+\section{Morphisms}
+\begin{exercise}
+Composition is defined for two morphisms. If more than two morphisms are given then one may compose them in several ways. Prove that the result of any such nested composition is independent of the placement of parantheses.
+\end{exercise}
+\begin{proof}
+The result is true for $n=3$. Now given a nested composition of $f_1, .... , f_n$. We can write this as
+$$(f_1\circ ....\circ f_k)\circ (f_{k+1}\circ ...\circ f_n),$$
+where between the brackets we have a well-defined product by the induction hypothesis.
+Another composition is
+$$(f_1\circ ...\circ f_l)\circ (f_{l+1}\circ ...\circ f_n).$$
+Assume WLOG that $l<k$, then we can write using the induction hypothesis and the associative law
+\begin{eqnarray*}
+(f_1\circ ....\circ f_k)\circ (f_{k+1}\circ ...\circ f_n)
+& = & ((f_1\circ ...\circ f_l)\circ (f_{l+1}\circ ...\circ f_k))\circ (f_{k+1}\circ ...\circ f_n)\\
+& = & (f_1\circ ...\circ f_l)\circ ((f_{l+1}\circ ...\circ ... f_k)\circ (f_{k+1}\circ ...\circ f_n))\\
+& = & (f_1\circ ... \circ f_l)\circ (f_{l+1}\circ ... \circ f_n),
+\end{eqnarray*}
+hence the two expressions are equal.
+\end{proof}
+
+\begin{exercise}
+Let $X$ be a set equipped with a reflexive and transitive relation $R$. This induces a category $\mathcal{R}$. When is this category a groupoid.
+\end{exercise}
+\begin{proof}
+We want that every morphism is an isomorphism. So take a morphism $x~R~y$. An inverse would be given by $y~R~x$. Thus the category is a groupoid if and only if $R$ is symmetric.
+\end{proof}
+
+\begin{exercise}
+Let $A,B$ be objects of a category $\mathcal{C}$ and let $f\in \text{Hom}_\mathcal{C}(A,B)$ be a morphism.
+\begin{enumerate}
+    \item If $f$ has a right-inverse, then $f$ is an epimorphism.
+    \item The converse does not hold.
+\end{enumerate}
+\end{exercise}
+\begin{proof}
+\begin{enumerate}
+    \item Let $u,v:B\rightarrow C$ be two morphisms such that $u\circ f = v\circ f$. Then by applying the right-inverse $g$ of $f$, we get
+    $$u = u\circ \text{Id}_B = u\circ f\circ g = v\circ f\circ g = v\circ \text{Id}_B = v.$$
+    
+    \item As for the converse, take the monoid $\mathbb{N}$ with addition. This defines a category. Note that $n+2 = m + 2$ implies $n=m$, thus $2$ is an epimorphism. But of course $2$ has no right-inverse in $\mathbb{N}$.
+\end{enumerate}
+\end{proof}
+
+\begin{exercise}
+The composition of monomorphisms is a monomorphism. Hence given a category $\mathcal{C}$ we can define a subcategory $\mathcal{C}_\text{mono}$ by taking the same objects as $\mathcal{C}$ and by taking as morphisms in $\mathcal{C}_\text{mono}$ the monomorphisms in $\mathcal{C}$. The same can be done for epimorphisms, but there is not a category of non-monomorphisms.
+\end{exercise}
+\begin{proof}
+Let $f:A\rightarrow B$ and $g:B\rightarrow C$ be monomorphisms. Assume $u,v:D\rightarrow A$ are such that $(g\circ f)\circ u = (g\circ f)\circ v$. Since $g$ is a monomorphism, we get that $f\circ u = f\circ v$. Since $f$ is a monomorphism we end up with $u=v$.\\
+The identity $\text{Id}_A:A\rightarrow A$ is a monomorphism since $\text{Id}_A\circ u = \text{Id}_A\circ v$ obviously implies $u=v$. Hence the monomorphisms define a category.\\
+Now let $f:A\rightarrow B$ and $g:B\rightarrow C$ be epimorphisms. Assume that $u,v:C\rightarrow D$ are such that $u\circ g\circ f = v\circ g\circ f$. Since $f$ is an epimorphism, we get that $u\circ g = v\circ g$. Since $g$ is an epimorphism, we obtain that $u=v$.\\
+The identity $\text{Id}_C:C\rightarrow C$ is an epimorphism since $u\circ\text{Id}_C=v\circ \text{Id}_C$ clearly implies $u=v$. Hence the epimorphisms define a category.\\
+The non-monomorphisms do not form a subcategory, since the identities form monomorphisms. 
+\end{proof}
+
+\begin{exercise}
+Give a concrete description of monomorphisms and epimorphisms in the category \textbf{MSet}.
+\end{exercise}
+\begin{proof}
+The monomorphisms are exactly injective maps. Indeed, assume that a map $f$ has this property and that $f\circ u = g\circ v$. Then if $f(u(x)) = g(v(x))$, then clearly $u(x) = v(x)$. Conversely, let $f$ be non-injective and let $x\neq y$ be such that $f(x)\neq f(y)$. Define $u(*) = x$ and $v(*) = y$. Then $f\circ u \neq f\circ v$.\\
+The epimorphisms are exactly the surjective maps. Indeed, if $u(f(x)) = v(f(x))$ for all $x$. Then given $y$, there is some $x$ such that $f(x)= y$. But then we see that $u(y) = v(y)$. Conversely, if $f$ is not surjective, let $\{0,1\}$ be a multiset with $0\sim 1$. We define $u(x) = 0$ for all $x$. We define $v(x) = 0$ if $x= f(y)$ for some $y$, and $1$ otherwise, then $u\circ f \neq v\circ f$.
+\end{proof}
+
+\section{Universal properties}
+\begin{exercise}
+The final object in a category $\mathcal{C}$ is the initial object in the category $\mathcal{C}^\text{op}$.
+\end{exercise}
+\begin{proof}
+Let $F$ be the final object in $\mathcal{C}$. This implies for any object $C$ in $\mathcal{C}$, that there is a unique morphism $C\rightarrow F$ in $\mathcal{C}$. By definition of morphisms in $\mathcal{C}^\text{op}$, we see that there is a unique morphism $F\rightarrow C$ in $\mathcal{C}^\text{op}$, hence the object $F$ is initial in $\mathcal{C}^\text{op}$.
+\end{proof}
+
+\begin{exercise}
+$\emptyset$ is the unique initial object in \textbf{SET}.
+\end{exercise}
+\begin{proof}
+Let $I$ be another initial object, then there is a bijection $f:I\rightarrow \emptyset$. If $I$ is nonempty, the it has an element $x\in I$. But then $f(x)\in \emptyset$, which is a contradiction. Hence $I=\emptyset$.
+\end{proof}
+
+\begin{exercise}
+Final objects are unique up to isomorphism.
+\end{exercise}
+\begin{proof}
+Let $F$ and $F'$ be final objects. Since $F'$ is final, there is a morphism $f:F\rightarrow F'$. Since $F$ is final, there is a morphism $g:F'\rightarrow F$. We have that $g\circ f:F\rightarrow F$ is a morphism between $F$ and $F$. But $1_F$ is also such a morphism. Since $F$ is final, such a morphism is unique, hence $g\circ f=1_F$. We also have that $f\circ g$ is a morphism between $F'$ and $F'$. But $1_{F'}$ is also such a morphism. Since $F'$ is final, such a morphism is unique, hence $f\circ g=1_{F'}$. We obtain that $f$ and $g$ are inverses. Since $f$ is thus an isomorphism, we get that $F$ and $F'$ are isomorphic.
+\end{proof}
+
+\begin{exercise}
+Find the final and initial objects in the category of pointed sets.
+\end{exercise}
+\begin{proof}
+The singleton $\{*\}$ with the function $\text{Id}:\{*\}\rightarrow \{*\}$ is both final and initial. Indeed, let $(A,f:\{*\}\rightarrow A)$ be another pointed set. There is clearly only one function $A\rightarrow \{*\}$, namely
+$$g:A\rightarrow \{*\}:x\rightarrow *$$
+This satisfies $g(f(*)) = * = \text{Id}(*)$, hence $(\{*\}, \text{Id})$ is final.\\
+Also, the only function $h:\{*\}\rightarrow A$ satisfying $h(*) = f(*)$ is clear. Hence $(\{*\}, \text{Id})$ is an initial object too.
+\end{proof}
+
+\begin{exercise}
+What are the final objects in the category of \S 5.3?
+\end{exercise}
+\begin{proof}
+The final objects are the singletons $\{*\}$, with the constant morphisms $\varphi: A\rightarrow \{*\}$. Given any other set $Z$ and a morphism $\psi:A\rightarrow Z$ satisfying $a\sim b$ implies $\psi(a) = \psi(b)$, we define $f:Z\rightarrow \{*\}$ the constant map. We have $$f(\psi(a)) = * = \varphi(a),$$
+as desired.
+\end{proof}
+
+\begin{exercise}
+Consider the category corresponding to endowing the set $\mathbb{Z}^+$ of positive integers with the divisibility relation. Thus there is exactly one morphism $d\rightarrow m$ if and only if $d$ divides $m$ without remainder; there is no morphism between $d$ and $m$ otherwise. This category has products and coproducts. What are their convential name.
+\end{exercise}
+\begin{proof}
+Translating the product requirement, we get that $n$ is the product of $a$ and $b$ if $n$ divides both $a$ and $b$, and if $m$ divides both $a$ and $b$, then $m$ divides $n$. Thus $n$ is the greatest common divisor of $a$ and $b$.\\
+Translating the coproduct requirement, we get that $n$ is the coproduct of $a$ and $b$ if both $a$ and $b$ divides $n$, and if $a$ and $b$ divide $m$, then $n$ divides $m$. Thus $n$ is the least common multiple.
+\end{proof}
+
+\begin{exercise}
+If $A'\cong A''$ and $B'\cong B''$, and further $A'\cap B'=\emptyset$ and $A''\cap B''=\emptyset$, then $A'\cup B'\cong A''\cup B''$.
+\end{exercise}
+\begin{proof}
+We have that both $A'\cup B'$ and $A'' \cup B''$ are coproducts of $A'$ and $B'$ in \textbf{Set}. Coproducts are unique up to isomorphism, which concludes the proof.
+\end{proof}
+
+\begin{exercise}
+In every category, the product $A\times B$ and $B\times A$ are isomorphic.
+\end{exercise}
+\begin{proof}
+By the universal property, given any two morphisms $f_A:C\rightarrow A$ and $f_B:C\rightarrow B$, there is a unique morphism $f:C\rightarrow A\times B$ such that $p_A\circ f = f_A$ and $p_B\circ f = f_B$. Switching the order of the morphismss, we thus see that $(A\times B, p_A, p_B)$ satisfies the universal property of the product of $B$ and $A$. Hence $A\times B$ and $B\times A$ are isomorphic.
+\end{proof}
+
+\begin{exercise}
+Let $\mathcal{C}$ be a category with products. Find a reasonable candidate for the universal property for the product $A\times B\times C$ of three objects. Both $(A\times B)\times C$ as $A\times (B\times C)$ satisfy this universal property and hence are isomorphic.
+\end{exercise}
+\begin{proof}
+The universal property of $A\times B\times C$ goes as follows: given any three morphisms $f_A:D\rightarrow A$, $f_B:D\rightarrow B$ and $f_C:D\rightarrow C$, there is a unique morphism $f:D\rightarrow A\times B\times C$ such that $f_A = p_A\circ f$, $f_B = p_B\circ f$ and $f_C = p_C\circ f$.\\
+We show that $(A\times B)\times C$ satisfy this property. Given the three morphisms, $f_A:D\rightarrow A$, $f_B:D\rightarrow B$ and $f_C:D\rightarrow C$, by the universal property there is a unique  morphism $h:D\rightarrow A\times B$ such that $p_A\circ h = f_A$ and $p_B\circ h = f_B$. By the universal property again, there is a unique morphism $f:D\rightarrow (A\times B)\times C$ such that $p_1\circ f = h$ and $p_2\circ f = f_C$. But then $p_A\circ p_1\circ f = f_A$ and $p_B\circ p_2\circ f = f_B$.\\
+To show uniqueness, assume that $g$ also satisfies $p_2\circ g = f_C$, $p_A\circ p_1\circ g = f_A$ and $p_B\circ p_1\circ g = f_B$. Then by uniqueness of the universal property, we have that $p_1\circ g = p_1\circ f$. Hence by uniqueness again, we get that $g=f$.\\
+We show that $A\times (B\times C)$ satisfy this property. Given the three morphisms, $f_A:D\rightarrow A$, $f_B:D\rightarrow B$ and $f_C:D\rightarrow C$, by the universal property there is a unique  morphism $h:D\rightarrow B\times C$ such that $p_B\circ h = f_B$ and $p_C\circ h = f_C$. By the universal property again, there is a unique morphism $f:D\rightarrow A\times (B\times C)$ such that $p_1\circ f = f_A$ and $p_2\circ f = h$. But then $p_B\circ p_2\circ f = f_B$ and $p_C\circ p_2\circ f = f_C$.\\
+To show uniqueness, assume that $g$ also satisfies $p_1\circ g = f_A$, $p_B\circ p_2\circ g = f_B$ and $p_C\circ p_2\circ g = f_C$. Then by uniqueness of the universal property, we have that $p_2\circ g = p_2\circ f$. Hence by uniqueness again, we get that $g=f$.
+\end{proof}
+
+\begin{exercise}
+Define products and coproducts for families of objects in a category. Do these exist in \textbf{Set}?
+\end{exercise}
+\begin{proof}
+Let $(A_i)_{i\in I}$ be a family of objects. We say that $(P, \pi_i:P\rightarrow A_i)$ is the product of this family if for every family of morphisms $f_i:C\rightarrow A_i$ there is a unique morphism $f:C\rightarrow P$ such that $\pi_i\circ f=f_i$.\\
+In \textbf{Set}, we define
+$$\prod_{i\in I} A_i = \left\{x:I\rightarrow \bigcup_{i\in I}A_i~\vert~x(i)\in A_i~\forall i\in I \right\},$$
+with $\pi_i(x) = x(i)$. Let $f_i:C\rightarrow A_i$ be functions. We want $f:C\rightarrow \prod_{i \in I} A_i$ such that $\pi_i\circ f=f_i$. Thus $f(c)(i)=f_i(c)$. With this definition, we define $f$ and the diagram commutes.\\
+Let $(A_i)_{i\in I}$ be a family of objects. We say that $(I, \iota_i: A_i\rightarrow I)$ is the product of this family if for every family of morphisms $f_i:A_i\rightarrow C$ there is a unique morphism $f:I\rightarrow C$ such that $f\circ \iota_i=f_i$.\\
+In \textbf{Set}, we define
+$$\coprod_{i\in I} A_i = \bigcup_{i\in I} A_i\times \{i\},$$
+with $\iota_i(x)=(x,i)$. Let $f_i:A_i\rightarrow C$ be functions. We want $f:\coprod_{i \in I} A_i\rightarrow C$ such that $ f\circ \iota_i=f_i$. Thus $f(c,i)=f_i(c)$. With this definition, we define $f$ and the diagram commutes.
+\end{proof}
+
+\begin{exercise}
+Let $A$, resp.\ $B$, be a set, endowed with an equivalence relation $\sim_A$, resp.\ $\sim_B$. Define a relation $\sim$ on $A\times B$ by setting
+$$(a_1,b_1)\sim (a_2,b_2)~\Leftrightarrow a_1\sim_Aa_2~\text{and}~b_1\sim_B b_2.$$
+\begin{enumerate}
+    \item Use the universal property for quotients to establish that there are functions $(A\times B)/\sim\rightarrow A/\sim_A$ and $(A\times B)/\sim\rightarrow B/\sim_B$.
+    \item $(A\times B)/\sim$ with these two functions satisfies the universal property for the product of $A/\sim_A$ and $B/\sim_B$.
+    \item $(A\times B)/\sim$ is isomorphic to $(A/\sim_A)\times (B/\sim_B)$.
+\end{enumerate}
+\end{exercise}
+\begin{proof}
+\begin{enumerate}
+    \item Let $f:A\times B\rightarrow A/\sim_A$ given by $f(a,b) = [a]$. If $(a_1,b_1)\sim (a_2,b_2)$. Then $[a_1]=[a_2]$, thus $f(a_1,b_1) = f(a_2,b_2)$. Thus equivalent elements have the same image. By the universal property of quotients, we get a function $F:(A\times B)/\sim\rightarrow A/\sim_A$.\\
+    Let $g:A\times B\rightarrow B/\sim_B$ given by $f(a,b) = [b]$. If $(a_1,b_1)\sim (a_2,b_2)$. Then $[b_1]=[b_2]$, thus $g(a_1,b_1) = g(a_2,b_2)$. Thus equivalent elements have the same image. By the universal property of quotients, we get a function $G:(A\times B)/\sim\rightarrow B/\sim_B$.
+    
+    \item Let $H:D\rightarrow A/\sim_A$ and $K:D\rightarrow B/\sim_B$ be functions. Define $A:D\rightarrow (A\times B)/\sim$ by sending $A(d)$ to $(a,b)$, where $[a] = H(d)$ and $[b] = K(d)$. This is well-defined since if $H(d) = [a] = [a']$ and $K(d) = [b] = [b']$, we have $(a,b)\sim (a',b')$.\\
+    Now, we have that if $A(d) = [(a,b)]$. Then $F(A(d)) = [a] = H(d)$, and $G(A(d)) = [b] = K(d)$.\\
+    Now for uniqueness, assume that if $B(d) = [(a,b)]$. Then $F(B(d)) = [a]$ and $G(B(d)) = [b]$. Thus we must have $[a] = F(B(d)) = H(d)$ and $[b] = G(B(d))$, which is the same as the map $A$ above.
+    
+    \item Follows by uniqueness of the product up to isomorphism.
+\end{enumerate}
+\end{proof}
+
+\begin{exercise}
+Define the notion of fibered products and fibered coproducts as terminal objects of the categories $C_{\alpha,\beta}$ and $C^{\alpha,\beta}$, by stating carefully the corresponding universal properties. Define the fibered products and coproducts in \textbf{Set} concretely.
+\end{exercise}
+\begin{proof}
+A fibered product is a commutative diagram
+$$\xymatrix{
+A\ar[d]_v\ar[r]^u & B\ar[d]^\alpha\\
+C\ar[r]_\beta & D
+}$$
+If
+$$\xymatrix{
+A'\ar[d]_g\ar[r]^f & B\ar[d]^\alpha\\
+C\ar[r]_\beta & D
+}$$
+is another diagram, then there is a unique arrow $H$ such that 
+$$\xymatrix{
+A'\ar[dr]^H\ar[drr]^f\ar[ddr]_g & & \\
+& A\ar[d]_v\ar[r]^u & B\ar[d]^\alpha\\
+& C\ar[r]_\beta & D
+}$$
+In $\textbf{Set}$, we let
+$$A = \{(b,c)\in B\times C~\vert~\alpha(b)=\beta(c)\}$$
+and $u(b,c) = b$ and $v(b,c) = c$. In the case of the other diagram, we want $u(H(a)) = f(a)$ and $v(H(a)) = g(a)$. So it is clear the unique map $H$ making the diagram commute is $H(a) = (f(a), g(a))$. This is well defined since $\alpha(f(a)) = \beta(g(a))$.\\\\
+
+A fibered coproduct is a commutative diagram
+$$\xymatrix{
+D\ar[d]_\beta\ar[r]^\alpha & B\ar[d]^u\\
+C\ar[r]_v & A
+}$$
+If
+$$\xymatrix{
+D\ar[d]_\beta\ar[r]^\alpha & B\ar[d]^f\\
+C\ar[r]_g & A'
+}$$
+is another diagram, then there is a unique arrow $H$ such that 
+$$\xymatrix{
+D\ar[d]_\beta\ar[r]^\alpha & B\ar[d]^u\ar[ddr]^f & \\
+C\ar[r]_v\ar[rrd]_g & A\ar[rd]^H & \\
+& & A'
+}$$
+In $\textbf{Set}$, we let
+$$A = (B\times \{0\})\cup (C\times \{1\})/\sim,$$
+where $\sim$ is the equivalence relation generated by $\alpha(d)\sim \beta(d)$ for each $d\in D$. We define $u(b) = (b,0)$ and $v(c) = (c,1)$. In the case of the other diagram, we want $H(u(a)) = f(a)$ and $H(v(a)) = g(a)$. So it is clear the unique map $H$ making the diagram commute is $H(a,0) = f(a)$ and $H(b,1)=g(b)$. This is well defined since $H(\alpha(d),0) = H(f(\alpha(d))) = H(g(\alpha(d))) = H(\alpha(d),1)$.
+\end{proof}
+
+
+
+\chapter{Groups, first encounter}
+\section{Definition of group}
+\begin{exercise}
+Every group is the group of isomorphisms of a groupoid. In particular, every group is the group of automorphisms of some object in some category.
+\end{exercise}
+\begin{proof}
+Let $G$ be a group. Define a category $\mathcal{C}$ by setting 
+\begin{itemize}
+    \item $\text{Obj}(\mathcal{C}) = \{*\}$
+    \item $\text{Hom}(*,*) = G$
+    \item $f\circ g = g\cdot f$
+    \item $1_* = 1_G$
+\end{itemize}
+It is then clear that the isomorphisms from $*$ to $*$ is exactly $G$.
+\end{proof}
+
+\begin{exercise}
+Which sets of numbes of \S 1.1 can be made into groups by some standard operation.
+\end{exercise}
+\begin{proof}
+\begin{enumerate}
+    \item $\mathbb{Z}$ is a group under addition.
+    \item $\mathbb{Q}$ is a group under addition.
+    \item $\mathbb{Q}^*$ is a group under multiplication.
+        \item $\mathbb{R}$ is a group under addition.
+    \item $\mathbb{R}^*$ is a group under multiplication.
+        \item $\mathbb{C}$ is a group under addition.
+    \item $\mathbb{C}^*$ is a group under multiplication.
+\end{enumerate}
+\end{proof}
+
+\begin{exercise}
+For all elements $g$ and $h$ of a group $G$, we have $(gh)^{-1}= h^{1}g^{-1}$.
+\end{exercise}
+\begin{proof}
+We have 
+$$(gh)(h^{-1}g^{1}) = geg^{-1} = gg^{-1} = e,$$
+and
+$$(h^{-1}g^{-1})(gh) = h^{-1}eh = h^{-1}h = e.$$
+By uniqueness of the inverse follows that $(gh)^{-1} = h^{-1}g^{-1}$.
+\end{proof}
+
+\begin{exercise}
+Suppose $g^2=e$ for all elements $g$ of a group $G$, then $G$ is commutative.
+\end{exercise}
+\begin{proof}
+Take any $g,h\in G$. Then
+$$e=(gh)^2 = ghgh.$$
+Multiply both sides with $g$ on the left, we get
+$$g = g^2hgh = hgh.$$
+Multiply by $h$ on the left, we get
+$$hg = h^2gh = gh,$$
+hence $h$ and $g$ commute.
+\end{proof}
+
+\begin{exercise}
+The multiplication table of a group is an array compiling the results of all multiplications. Every row and every column of the multiplication table of a group contains all elements of the group exactly once.
+\end{exercise}
+\begin{proof}
+Take the row indexed by $g\in G$. Let $h\in G$ be arbitrary. Then in row $g$, and column $g^{-1}h$, we find the element $h$. If we find an element in row $g$ more than one times, that means there are distinct columns $h$ and $h'$ such that $gh=gh'$. Then $g^{-1}gh = g^{-1}gh'$, implying $h=h'$. Contradiction.\\
+
+Take the column indexed by $h\in G$. Take $g\in G$ arbitrary. Then in row $gh^{-1}$ and column $h$, we find the element $g$. If we find an element in column $h$ more than one times, that mean there are distinct rows $g$ and $g'$ such that $gh=g'h$. This implies that $ghh^{-1} = g'hh^{-1}$. Then $g=g'$, a contradiction.
+\end{proof}
+
+\begin{exercise}
+There is only one possible multiplication table for $G$ if $G$ has exactly $1$, $2$ or $3$ elements. There are two distinct table of $4$ elements, up to reordering of the elements of $G$. All groups of order $\leq 4$ are commutative.
+\end{exercise}
+\begin{proof}
+\begin{enumerate}
+    \item A group of $1$ element, $e$, must clearly have the following table
+    $$\begin{array}{c|c|}
+    \hline
+    & e\\
+    \hline
+    e & e\\
+    \hline
+    \end{array}$$
+    \item A group of order $2$ must have an identity element $e$ and another element $a$. Clearly we must have $ee=e$ and $ea=ae=e$. If $aa=a$, then $a^{-1}aa=a^{-1}a$, hence $a=e$, a contradiction. We obtain the following table
+        $$\begin{array}{c|c|c|}
+    \hline
+    & e & a\\
+    \hline
+    e & e & a\\
+    \hline
+    a & a & e\\
+    \hline
+    \end{array}$$
+    \item A group of $3$ elements must have an identity element $e$, and two other elements $a$ and $b$. We must have the following table
+           $$\begin{array}{c|c|c|c|}
+    \hline
+    & e & a & b\\
+    \hline
+    e & e & a & b\\
+    \hline
+    a & a &   &  \\
+    \hline
+    b & b &   &   \\
+    \hline
+    \end{array}$$ 
+    By the previous exercise, we must have that either $aa=e$ or $aa=b$. If $aa=e$, then we have
+               $$\begin{array}{c|c|c|c|}
+    \hline
+    & e & a & b\\
+    \hline
+    e & e & a & b\\
+    \hline
+    a & a & e &  \\
+    \hline
+    b & b &   &   \\
+    \hline
+    \end{array}$$ 
+    By the previous exercise, we must have $ba = b$. But then we get $b^{-1}ba=b^{-1}b$, thus $a=e$, a contradiction. We must have $aa=b$ and then the table trivially fills up as
+                  $$\begin{array}{c|c|c|c|}
+    \hline
+      & e & a & b\\
+    \hline
+    e & e & a & b\\
+    \hline
+    a & a & b & e\\
+    \hline
+    b & b & e & a \\
+    \hline
+    \end{array}$$
+    \item There must be an identity element $e$, and three other elements $a$,$b$, and $c$, we get
+               $$\begin{array}{c|c|c|c|c|}
+    \hline
+      & e & a & b & c\\
+    \hline
+    e & e & a & b & c\\
+    \hline
+    a & a &   &   &  \\
+    \hline
+    b & b &   &   &  \\
+    \hline
+    c & c &   &   &  \\
+    \hline
+    \end{array}$$ 
+    We either have $aa=e$, $aa=b$ or $aa=c$. The latter two options are clearly equivalent by relabeling. 
+    \begin{itemize}
+        \item Assume $aa=b$, we get
+                       $$\begin{array}{c|c|c|c|c|}
+    \hline
+      & e & a & b & c\\
+    \hline
+    e & e & a & b & c\\
+    \hline
+    a & a & b &   &  \\
+    \hline
+    b & b &   &   &  \\
+    \hline
+    c & c &   &   &  \\
+    \hline
+    \end{array}$$ 
+    From the previous exercise, we get either $ab=e$ or $ab=c$. If $ab=e$, we can fill up the table
+                        $$\begin{array}{c|c|c|c|c|}
+    \hline
+      & e & a & b & c\\
+    \hline
+    e & e & a & b & c\\
+    \hline
+    a & a & b & e & c\\
+    \hline
+    b & b &   &   &  \\
+    \hline
+    c & c &   &   &  \\
+    \hline
+    \end{array}$$
+    But the column $c$ then contains two $c's$, a contradiction. Thus we must have $ab=c$, and thus
+                          $$\begin{array}{c|c|c|c|c|}
+    \hline
+      & e & a & b & c\\
+    \hline
+    e & e & a & b & c\\
+    \hline
+    a & a & b & c & e\\
+    \hline
+    b & b &   &   &  \\
+    \hline
+    c & c &   &   &  \\
+    \hline
+    \end{array}$$  
+    We must have the $ca=e$, henc the table fills up as
+                           $$\begin{array}{c|c|c|c|c|}
+    \hline
+      & e & a & b & c\\
+    \hline
+    e & e & a & b & c\\
+    \hline
+    a & a & b & c & e\\
+    \hline
+    b & b & c & e & a \\
+    \hline
+    c & c & e & a & c\\
+    \hline
+    \end{array}$$    
+    \item Assume $aa=e$, we get
+                       $$\begin{array}{c|c|c|c|c|}
+    \hline
+      & e & a & b & c\\
+    \hline
+    e & e & a & b & c\\
+    \hline
+    a & a & e & c & b\\
+    \hline
+    b & b & c &   &  \\
+    \hline
+    c & c & b &   &  \\
+    \hline
+    \end{array}$$ 
+    Now we have either $cc=e$ or $cc=a$. We obtain the following tables
+                           $$\begin{array}{c|c|c|c|c|}
+    \hline
+      & e & a & b & c\\
+    \hline
+    e & e & a & b & c\\
+    \hline
+    a & a & e & c & b\\
+    \hline
+    b & b & c & a & e\\
+    \hline
+    c & c & b & e & a\\
+    \hline
+    \end{array}$$ 
+    This is equivalent with the previous table under the reordering $b\leftrightarrow a$. The other possibility is
+                           $$\begin{array}{c|c|c|c|c|}
+    \hline
+      & e & a & b & c\\
+    \hline
+    e & e & a & b & c\\
+    \hline
+    a & a & e & c & b\\
+    \hline
+    b & b & c & e & a \\
+    \hline
+    c & c & b & a & e \\
+    \hline
+    \end{array}$$ 
+    \end{itemize}
+    All the obtained tables are easily checked to be commutative.
+\end{enumerate}
+\end{proof}
+
+\begin{exercise}
+Let $g$ be an element of finite order, and let $N\in \mathbb{Z}$. Then $g^N=e$ if and only if $N$ is a multiple of $|g|$.
+\end{exercise}
+\begin{proof}
+Assume first that $g^N=e$. If $N$ is positive, then it follows from Lemma $1.10$ that $N$ is a multiple of $|g|$. If $N=0$, then $N$ is clearly a multiple of $|g|$. If $N<0$, then $g^{-N}=e$, hence $-N$ is a multiple of $|g|$ by hte previous. This implies directly that $N$ is a multiple of $|g|$.\\
+Conversely, if $N=a|g|$ for some $a\in \mathbb{Z}$, then
+$$g^N = (g^{|g|})^a = e^a = e,$$
+hence the result.
+\end{proof}
+
+\begin{exercise}
+Let $G$ be an abelian finite group, with exactly one element $f$ of order $2$, then $\prod_{g\in G}g=f$.
+\end{exercise}
+\begin{proof}
+Group the product so that each element is paired with its inverse. This is only impossible if an element equals its inverse and thus has order $1$ or $2$. The other elements are cancelled, providing the right result.
+\end{proof}
+
+\begin{exercise}
+Let $G$ be a finite group, of order $n$, and let $m$ be the number of elements $g\in G$ of order exactly $2$. Then $n-m$ is odd. Thus if $n$ is even, then $G$ necessarily contains elements of order $2$.
+\end{exercise}
+\begin{proof}
+Let $A$ be the subset of $G$ consisting of elements which are not of order $2$. These can either be the identity, or a nonidentity element. If $g\in A$ is a non-identity element, then $g^{-1}\in A$ is a distinct element from $g$. Thus $A$ can be subdivided in pairs $\{g,g^{-1}\}$ and a singleton $\{e\}$. Thus $A$ must be odd. This implies that $n-m$ is odd. In the case that $n$ is even, it must be the case that $m$ is odd, thus there is at least one element of order $2$.
+\end{proof}
+
+\begin{exercise}
+Suppose the order of $g$ is odd, what can you say about the order of $g^2$?
+\end{exercise}
+\begin{proof}
+By Proposition 1.13, 
+$$|g^2| = \frac{|g|}{\text{gcd}(2, |g|)} = |g|.$$
+\end{proof}
+
+\begin{exercise}
+For all $g$ and $h$ in a group $G$, we have $|gh|=|hg|$.
+\end{exercise}
+\begin{proof}
+First we prove $|g| = |aga^{-1}|$. Indeed, we have
+$$(aga^{-1})^n = (aga^{-1})(aga^{-1})...(aga^{-1}) = ag^n a^{-1}.$$
+Now if $(aga^{-1})^n=1$, then $ag^na^{-1}=1$ and thus $g^n=1$. Conversely, if $g^n=1$, then $(aga^{-1})^n = ag^na^{-1}=aa^{-1}=1$. Thus $|g| = |aga^{-1}|$.\\
+Now, we have that
+$$|gh| = |hghh^{-1}| = |hg|.$$
+Completing the proof.
+\end{proof}
+
+\begin{exercise}
+In the group of invertible $2\times 2$ matrices, consider
+$$g=\left(\begin{array}{cc}
+0 & -1\\ 1 & 0
+\end{array}\right)~\text{and}~h=\left(\begin{array}{cc}
+0 & 1\\ -1 & -1
+\end{array}\right).$$
+We have $|g|=4$, $|h|=3$ and $|gh|=\infty$.
+\end{exercise}
+\begin{proof}
+\begin{enumerate}
+    \item[]
+    \item We compute $g^2$:
+    $$g^2=\left(\begin{array}{cc}
+0 & -1\\ 1 & 0
+\end{array}\right)\left(\begin{array}{cc}
+0 & -1\\ 1 & 0
+\end{array}\right) = \left(\begin{array}{cc}
+-1 & 0\\ 0 & -1
+\end{array}\right).$$
+And thus we have
+    $$g^3=gg^2=\left(\begin{array}{cc}
+0 & -1\\ 1 & 0
+\end{array}\right)\left(\begin{array}{cc}
+-1 & 0\\ 0 & -1
+\end{array}\right) = \left(\begin{array}{cc}
+0 & 1\\ -1 & 0
+\end{array}\right).$$
+We obtain 
+   $$g^4=g^3g=\left(\begin{array}{cc}
+0 & 1\\ -1 & 0
+\end{array}\right)\left(\begin{array}{cc}
+0 & -1\\ 1 & 0
+\end{array}\right) = \left(\begin{array}{cc}
+1 & 0\\ 0 & 1
+\end{array}\right).$$
+Hence $|g|=4$.
+\item We compute $h^2$:
+    $$h^2=\left(\begin{array}{cc}
+0 & 1\\ -1 & -1
+\end{array}\right)\left(\begin{array}{cc}
+0 & 1\\ -1 & -1
+\end{array}\right) = \left(\begin{array}{cc}
+-1 & -1\\ 1 & 0
+\end{array}\right).$$
+Thus
+$$h^3=hh^2 = \left(\begin{array}{cc}
+0 & 1\\ -1 & -1
+\end{array}\right)\left(\begin{array}{cc}
+-1 & -1\\ 1 & 0
+\end{array}\right) = \left(\begin{array}{cc}
+1 & 0\\ 0 & 1
+\end{array}\right).$$
+Hence $|h|=3$.
+\item We compute $gh$:
+$$gh = \left(\begin{array}{cc}
+0 & -1\\ 1 & 0
+\end{array}\right)\left(\begin{array}{cc}
+0 & 1\\ -1 & -1
+\end{array}\right) = \left(\begin{array}{cc}
+1 & 1\\ 0 & 1
+\end{array}\right).$$
+We claim by induction that
+$$(gh)^n = \left(\begin{array}{cc}
+1 & n\\ 0 & 1
+\end{array}\right).$$
+To prove this, it suffices to compute
+$$\left(\begin{array}{cc}
+1 & n\\ 0 & 1
+\end{array}\right)\left(\begin{array}{cc}
+1 & 1\\ 0 & 1
+\end{array}\right)=\left(\begin{array}{cc}
+1 & n+1\\ 0 & 1
+\end{array}\right).$$
+Hence the result holds and $|gh|=\infty$.
+\end{enumerate}
+\end{proof}
+
+\begin{exercise}
+$|gh|$ is not necessarily equal to $\text{lcm}(|g|,|h|)$, even if $g$ and $h$ commute.
+\end{exercise}
+\begin{proof}
+In $\{1,-1\}$ with the product. Let $g=h=-1$. Then $|g|=|h| = 2$. But $|gh| = |1| = 1$. And $1\neq \text{lcm}(|g|, |h|)$.
+\end{proof}
+
+\begin{exercise}
+If $g$ and $h$ commute and $\text{gcd}(|g|,|h|)=1$, then $|gh|=|g||h|$.
+\end{exercise}
+\begin{proof}
+Let $N=|gh|$, then $(gh)^N=1$. Since $g$ and $h$ commute, we have $g^N = (h^{-1})^N$. The order of $g^N$ is $\frac{|g|}{\text{gcd}(|g|,N)}$ and the order of $|h^{-1}|^N$ is $\frac{|h|}{\text{gcd}(|h|,N)}$. We obtain that
+$$\frac{|g|}{\text{gcd}(|g|,N)}=\frac{|h|}{\text{gcd}(|h|,N)}.$$
+It follows that $|g|$ and $|h|$ have a prime divisor in common which would  be a contradiction, unless if $\text{gcd}(|g|,N) = |g|$ and $\text{gcd}(|h|,N) = |h|$. This implies that $|g|$ and $|h|$ divide $N$. Since $\text{gcd}(|g|,|h|)=1$, we get that $|g||h|$ divide $N$. Since $N$ also divides $|g||h|$ by Proposition 1.14, we get that $|gh|= |g||h|$.
+\end{proof}
+
+\begin{exercise}
+Let $G$ be a commutative group and let $g\in G$ be an element of maximal finite order, that is such that if $h\in G$ has finite order then $|h|\leq |g|$. In fact, if $h$ has finite order in $G$, then $|h|$ divides $|g|$.
+\end{exercise}
+\begin{proof}
+Let $h$ be such that $|h|$ is finite but does not divide $|g|$. Then there is a prime $p$ such that we can write $|h|=p^ns$ and $|g|=p^mr$ with $r$ and $s$ relatively prime to $p$ and $m<n$. Then by $g^{p^m}$ has order $|g|/\text{gcd}(p^m, |g|) = r$. Also, $h^s$ has order $|h|/\text{gcd}(s,|h|) = p^n$. By the previous exercise, we get that $g^{p^m}h^s$ has order $p^nr$. This is an order larger than $|g|$, a contradiction.
+\end{proof}
+
+\section{Examples of Groups}
+\begin{exercise}
+One can associate an $n\times n$ matrix $M_\sigma$ with a permutation $\sigma\in S_n$ by letting the entry $(i, \sigma(i))$ be $1$ and letting the other entries be $0$. With this notation, 
+$$M_{\sigma\tau}=M_\sigma M_\tau$$
+for all $\sigma,\tau \in S_n$, where the product on the right is the ordinary product of matrices.
+\end{exercise}
+\begin{proof}
+We have that
+\begin{eqnarray*}
+M_\sigma M_\tau (i,j)
+& = & \sum_{k=1}^n M_\sigma (i,k) M_\tau (k,j)\\
+& = & M_\sigma(i, \sigma(i))  M_\tau (\sigma(i), j)\\
+& = & M_\tau (\sigma(i), j)
+\end{eqnarray*}
+This is $1$ if $j=\tau(\sigma(i))$ and $0$ otherwise.
+\end{proof}
+
+\begin{exercise}
+If $d\leq n$, then $S_n$ contains elements of order $d$.
+\end{exercise}
+\begin{proof}
+Take $(1~2~3~4~...~d)$.
+\end{proof}
+
+\begin{exercise}
+For every positive integer $n$, find an element of order $n$ in $S_\mathbb{N}$.
+\end{exercise}
+\begin{proof}
+Use $(1~2~3~4~...~n)$.
+\end{proof}
+
+\begin{exercise}
+Define a homomorphism $D_8\rightarrow S_4$ by labelling vertices of a square. List the $8$ permutations in the image of this homomorphism.
+\end{exercise}
+\begin{proof}
+\begin{itemize}
+    \item[]
+    \item $1$
+    \item $(1~2~3~4)$
+    \item $(1~3)(2~4)$
+    \item $(1~4~3~2)$
+    \item $(1~2)(3~4)$
+    \item $(1~4)(2~3)$
+    \item $(1~3)$
+    \item $(2~4)$
+\end{itemize}
+\end{proof}
+
+\begin{exercise}
+Describe generators and relations for all dihedral groups $D_{2n}$.
+\end{exercise}
+\begin{proof}
+Let $x$ be the reflection about a line through the center of a regular $n$-gon and a vertex, and let $y$ be the counterclockwise rotation by $2\pi/n$.\\
+It is easy to see geometrically that $x^2 = 1$, $y^n=1$ and $xy = y^{-1}x$.\\
+These relations generate entire $D_{2n}$ because the third relation shows how to commute $y$ and $x$. This implies that any element can be written in the form $y^a x^b$, with $0\leq a<n$ and $b\in \{0,1\}$. There are $2n$ such elements so we get the entire dihedral group.
+\end{proof}
+
+\begin{exercise}
+For every positive integer $n$ construct a group containing two elements $g$ and $h$ such that $|g|=2$, $|h|=2$, and $|gh|=n$.
+\end{exercise}
+\begin{proof}
+Let $x$ be the reflection about a line through the center of a regular $n$-gon and a vertex, and let $y$ be the counterclockwise rotation by $2\pi/n$.\\
+Take $g=x$ and $h=xy$. Then $|g|=2$, and $|gh| = |y| = n$. We also have that $h^2 = xyxy = xx^{-1}yy = 1$, thus $|h|=2$.
+\end{proof}
+
+\begin{exercise}
+Find all elements of $D_{2n}$ that commute with every other element.
+\end{exercise}
+\begin{proof}
+Let $x$ be the reflection about a line through the center of a regular $n$-gon and a vertex, and let $y$ be the counterclockwise rotation by $2\pi/n$.\\
+It is easy to see geometrically that $x^2 = 1$, $y^n=1$ and $xy = y^{-1}x$. Thus every element of $D_{2n}$ has the form $y^ax^b$, where $0\leq a<n$ and $b\in \{0,1\}$.\\
+Assume that $y^a$ commutes with every element. Then it commutes with $x$, thus
+$$y^ax = xy^a = y^{-a}x.$$
+Thus $y^a = y^{-a}$ and hence $y^{2a} = 1$. This implies that $a=n/2$ or $a=0$.. Assume on the other hand that $y^a x$ commutes with every element. Then it commutes with $y$, thus
+$$y^{a+1}x = y^axy = y^{a-1}x.$$
+This implies that $y^{a+1} = y^{a-1}$, hence $y^2 = 1$. This is only possible if $n=2$.\\
+Thus in $D_4$, the group is abelian. For $n>2$, we have that if $n$ is odd, then no element commutes with every other element. If $n=2a$ is even, then $y^a$ and $1$  is the only element that commutes with all elements. Indeed, it clearly commutes with any element of the form $y^c$. If the element is of the form $y^c x$, then
+$$y^cxy^a = y^c y^{-a}x = y^c y^a x = y^a y^cx.$$
+As desired.
+\end{proof}
+
+\begin{exercise}
+Find the orders of the groups of symmetries of the five platonic solids.
+\end{exercise}
+\begin{proof}
+\begin{enumerate}
+    \item[]
+    \item The tetrahedron. Let $p$ be an arbitrary vertex of the tetrahedron. Then we can map this to $4$ possible points $f(p)$. Let $q$ be adjacent to $p$, then $f(q)$ must be adjacent to $f(p)$. Thus there are $3$ possibilities for $f(q)$. In total we have $12$ possibilities which completely determine the motion. We get a group of order $12$.
+
+\item The Cube. Let $p$ be an arbitrary vertex of the cube. Then we can map this to $8$ possible points $f(p)$. Let $q$ be adjacent to $p$, then $f(q)$ must be adjacent to $f(p)$. Thus there are $3$ extra possibilities. In total we have $24$ possibilities which completely determine the motion. We get a group of order $24$.
+
+\item The octahedron. Let $p$ be an arbitrary vertex of the octahedron. We can map this to $6$ possible points $f(p)$. Let $q$ be adjacent to $p$, then $f(q)$ must be adjacent to $f(p)$. Thus there are $4$ extra possibilities. In total we have $24$ possibilities which completely determine the motion. We get a group of order $24$.
+
+\item The dodecahedron. Let $p$ be an arbitrary vertex of the dodecahedron. We can map this to $20$ possible points $f(p)$. Let $q$ be adjacent to $p$, then $f(q)$ must be adjacent to $f(p)$. Thus there are $3$ extra possibilities. In total we have $60$ possibilities which completely determine the motion. We get a group of order $60$.
+
+\item The icosahedron. Let $p$ be an arbitrary vertex of the icosahedron. We can map this to $12$ possible points $f(p)$. Let $q$ be adjacent to $p$, then $f(q)$ must be adjacent to $f(p)$. Thus there are $5$ extra possibilities. In total we have $60$ possibilities which completely determine the motion. We get a group of order $60$.
+\end{enumerate}
+\end{proof}
+
+\begin{exercise}
+Congruence mod $n$ is a congruence relation.
+\end{exercise}
+\begin{proof}
+\begin{itemize}
+    \item Since $n$ divides $a-a=0$, we have that $a\cong b$.
+    \item Assume that $a\cong b$. Then $n$ divides $a-b$,m eaning that $a-b=kn$. But then $b-a=(-k)n$, so $n$ divides $b-a$ and $b\cong a$ holds.
+    \item Assume that $a\cong b$ and $b\cong c$. Then $kn=a-b$ and $ln=b-c$. Thus $(l+k)n = a-c$, and we get that a$\cong c$.
+\end{itemize}
+\end{proof}
+
+\begin{exercise}
+$\mathbb{Z}/n\mathbb{Z}$ consists of precisely $n$ elements.
+\end{exercise}
+\begin{proof}
+We show first that the elements $[0], [1],..., [n-1]$ are all distinct. Indeed, take $0\leq k,l\leq n-1$, such that $k\cong l$. Then $nx=k-l$ for some $x$. But since $-(n-1)\leq k-l\leq n-1$, we must have $n|x| = |k-l|<n$, which implies $x=0$. Thus $k=l$.\\
+Now given any $x\in \mathbb{Z}$, we can write $x=nq + r$, with $0\leq r<n$. But then $x\cong r$ and $[r]$ is among the classes $[0], [1],..., [n-1]$.
+\end{proof}
+
+\begin{exercise}
+The square of every odd integer is congruent to $1$ modulo $8$.
+\end{exercise}
+\begin{proof}
+An odd integer is congruent to $1$,$3$,$5$,$7$ modulo $8$. Thus the squares are
+$$1^2=1,$$
+$$3^2=9=1,$$
+$$5^2=25=1,$$
+$$7^2=49=1,$$
+all in modulo $8$.
+\end{proof}
+
+\begin{exercise}
+There are no integers $a$, $b$ and $c$ such that $a^2+b^2=3c^2$.
+\end{exercise}
+\begin{proof}
+We look at the equation in $\mathbb{Z}/4\mathbb{Z}$. We have for $c=0,1,2,3$ that $3c^2 = 0,3,0,3$.
+We have the following table for $a^2+b^2$, with $a$ vertically and $b$ horizontally:
+$$\begin{array}{|c|cccc|}
+\hline
+  & 0 & 1 & 2 & 3 \\
+0 & 0 & 1 & 0 & 1 \\
+1 & 1 & 2 & 1 & 2 \\
+2 & 0 & 1 & 0 & 1 \\
+3 & 1 & 2 & 1 & 2
+\end{array}$$
+The only possible solutions are if $a$, $b$ and hence $c$ are all even. Write $a=2^mx$, $b=2^ny$ and $c=2^k z$, where $x$, $y$ and $z$ are all odd. We would have
+$$2^{2m}x^2 + 2^{2n}y^2 = 2^{2k}z^2.$$
+Erasing the factors of $2$, we would have a solution that has one term odd, a contradiction.
+\end{proof}
+
+\begin{exercise}
+If $\text{gcd}(m,n)=1$, then there exists integers $a$ and $b$ such that $am+bn=1$. Conversely, if $am+bn=1$ for some integers $a$ and $b$, then $\text{gcd}(m,n)=1$.
+\end{exercise}
+\begin{proof}
+By Corollary 2.5, we know that $[m]_n$ generates $\mathbb{Z}/n\mathbb{Z}$. In particular, there is some integer $a$ such that $[am]_n=[1]_n$, or equivalently $n$ divides $am-1$. Thus there is some $b$ such that $bn=am-1$, hence $1=am-bn$.\\
+Conversely, let $am+bn=1$ and let $d$ divide $m$ and $n$. Then clearly $d$ divides $1$. Thus $d=\pm 1$. The result follows.
+\end{proof}
+
+\begin{exercise}
+The multiplication operator on $\mathbb{Z}/n\mathbb{Z}$ is well-defined.
+\end{exercise}
+\begin{proof}
+Let $[a]_n=[a']_n$ and $[b]_n=[b']_n$. This means that $n$ divides both $a-a'$ as $b-b'$. Now we have that
+$$ab-a'b' = ab - ab' + ab' - a'b' = a(b-b') + (a-a')b'.$$
+So we see that $n$ divides $ab-a'b'$.
+\end{proof}
+
+\begin{exercise}
+Let $n>0$ be an odd integer.
+\begin{itemize}
+    \item If $\text{gcd}(m,n)=1$, then $\text{gcd}(2m+n, 2n)=1$.
+    \item If $\text{gcd}(r,2n)=1$, then $\text{gcd}\left(\frac{r+n}{2},n\right)=1$.
+    \item The function
+    $$\varphi: (\mathbb{Z}/n\mathbb{Z})^*\rightarrow (\mathbb{Z}/2n\mathbb{Z})^*:[m]_n\rightarrow [2m+n]_{2n}$$
+    is a bijection.
+\end{itemize}
+\end{exercise}
+\begin{proof}
+\begin{itemize}
+    \item[]
+    \item Take a positive prime number $p$ dividing both $2m+n$ and $2n$. If $p=2$, then we get from this that $p$ divides $n$, a contradiction. If $p>2$, then $p$ divides $n$. We get that $p$ divides $2m$ and thus $m$, a contradiction.
+    \item Assume that $p$ is a positive prime number dividing $n$ and $\frac{r+n}{2}$. Since $p$ divides $n$, we get that $p$ is odd. We also get that $2p$ divides $r+n$. Thus $p$ divides both $r+n$ and $n$. We get that $p$ divides $r$ and $2n$. Contradiction.
+    \item We check well-defined, assume that $[m]_n\in (\mathbb{Z}/n\mathbb{Z})^*$, that means that $\text{gcd}(m,n)=1$. By the first point, we get that $\text{gcd}(2m+n, 2n)=1$, hence $[2m+n]_{2n}\in (\mathbb{Z}/2n\mathbb{Z})^*$. Now define
+    $$\psi:(\mathbb{Z}/2n\mathbb{Z})^*\rightarrow (\mathbb{Z}/n\mathbb{Z})^*:[r]_{2n}\rightarrow [(r+n)/2]_n.$$
+    We check well-defined, assume that $[r]_{2n}\in (\mathbb{Z}/2n\mathbb{Z})^*$. Then $\text{gcd}(r,2n)=1$, and thus by the second point $\text{gcd}\left(\frac{r+n}{2},n\right)=1$. This means that $[(r+n)/2]_n\in (\mathbb{Z}/n\mathbb{Z})^*$. We check that $\varphi$ and $\psi$ are inverses. Indeed,
+    \begin{eqnarray*}
+    \psi(\varphi([m]_n))
+    & = & \psi([2m+n]_{2n})\\
+    & = & [((2m+n) + n)/2]_n\\
+    & = & [m+n]_n\\
+    & = & [m]_n
+    \end{eqnarray*}
+    and
+    \begin{eqnarray*}
+    \varphi(\psi([r]_{2n}))
+    & = & \varphi( [(r+n)/2]_n)\\
+    & = & [2(r+n)/2 + n]_{2n}\\
+    & = & [r+2n]_{2n}\\
+    & = & [r]_{2n}
+    \end{eqnarray*}
+\end{itemize}
+\end{proof}
+
+\begin{exercise}
+Find the last digit of $1238237^{18238456}$.
+\end{exercise}
+\begin{proof}
+In (mod $10$), we have $1238237 \equiv 7$. Thus it suffices to find the last digit of $7^{18238456}$.\\
+We have
+$$7^1\equiv 7,~7^2\equiv 9,~7^3 \equiv 3, 7^4 \equiv 1.$$
+Since $18238456 = 4*4559614 $. We get that the last digit is $1$.
+\end{proof}
+
+\begin{exercise}
+If $m\equiv m'$ mod $n$, then $\text{gcd}(m,n) = 1$ if and only if $\text{gcd}(m',n)=1$.
+\end{exercise}
+\begin{proof}
+We know that $nx = m - m'$. Thus if $a$ divides $m$ and $n$, it is easily seen to divide $m'$. If $a$ divides $m'$ and $n$, it is easily seen to divide $m$. Thus the result follows.
+\end{proof}
+
+\begin{exercise}
+If $d\leq n$, define an injective function $\mathbb{Z}/d\mathbb{Z}\rightarrow S_n$ preserving the operation.
+\end{exercise}
+\begin{proof}
+We define $\theta:\mathbb{Z}/d\mathbb{Z}\rightarrow S_n$ by setting $\theta(k) = (1~2~...~d)^k$.
+\end{proof}
+
+\begin{exercise}
+Both $(\mathbb{Z}/5\mathbb{Z})^*$ and $(\mathbb{Z}/12\mathbb{Z})^*$ consists of $4$ elements. Write their multiplication tables, and prove no re-ordering of the elements will make them match.
+\end{exercise}
+\begin{proof}
+We have $(\mathbb{Z}/5\mathbb{Z}^*)=\{1,2,3,4\}$ and $(\mathbb{Z}/12\mathbb{Z})^* = \{1,5,7,11\}$. We get as multiplication table for $(\mathbb{Z}/5\mathbb{Z})^*$
+$$\begin{array}{c|cccc}
+  & 1 & 2 & 3 & 4\\
+\hline
+1 & 1 & 2 & 3 & 4\\
+2 & 2 & 4 & 1 & 3\\
+3 & 3 & 1 & 4 & 2\\
+4 & 4 & 3 & 2 & 1
+\end{array}$$
+We have only two elements $x$ with $x^2 = 1$. We get as multiplication table for $(\mathbb{Z}/12\mathbb{Z})^*$
+$$\begin{array}{c|cccc}
+  & 1 & 5 & 7 & 11\\
+\hline
+1 & 1 & 5 & 7 & 11\\
+5 & 5 & 1 & 11 & 7\\
+7 & 7 & 11 & 1 & 5\\
+11 & 11 & 7 & 5 & 1
+\end{array}$$
+All elements $x$ here satisfy $x^2 = 1$. Thus the two multiplication tables cannot match.
+\end{proof}
+
+\section{The category Grp}
+  
+    \begin{exercise}
+      Let $\phi:G \rightarrow H$ be a morphism in a category $C$ with products. Explain why there is a unique morphism $$ (\phi \times \phi): G \times G \rightarrow H \times H.$$
+    \end{exercise}
+
+    \begin{proof}
+      Since $\phi \circ \pi_G$ is morphism $G \times G \arr H$, by universal property of product we know that there exists a unique morphism, called $\phi \times \phi:G \times G \arr H \times H$ such that 
+      \[\begin{tikzcd}
+        &&&& {\bullet H} \\
+        {\bullet G \times G} && {\bullet H \times H} \\
+        &&&& {\bullet H}
+        \arrow["{\pi_h}"{description}, from=2-3, to=1-5]
+        \arrow["{\pi_h}"{description}, from=2-3, to=3-5]
+        \arrow["{\phi \circ \pi_G}"{description}, curve={height=-18pt}, from=2-1, to=1-5]
+        \arrow["{\phi \circ \pi_G}"{description}, curve={height=18pt}, from=2-1, to=3-5]
+        \arrow["\phi \times \phi "{description}, from=2-1, to=2-3]
+        \end{tikzcd}\]
+        commutes.
+    \end{proof}
+    \textbf{Remarks.} Notice that technically the problem is incorrect since there does not exists a unique morphism $G \times G \arr H \times H$, however, by univeral property of products, we do know that there is a unique morphism from $G \times G \arr H \times H$ which makes the above diagram commute. 
+
+    \begin{exercise}
+      Let $\phi:G \arr H, \psi:H \arr K$ be morphism in a category with prodcuts, and conside morphism between the products, $G \times G$, $H \times H$, $K \times K$ as in exercise 2.3.1. Prove that $$ (\psi \phi) \times (\psi \phi)=(\psi \times \psi)(\phi \times \phi).$$ (This is part of the commtuativity of the diagram displayed in the section 2.3.2 )
+    \end{exercise}
+    \begin{proof}
+      Since $\phi:G\arr H$ and $\psi:H \arr K$, by the universal property of products, there is unique morphism $(\psi \phi) \times (\psi \phi)$ such that 
+      \[\begin{tikzcd}
+        &&&&& {\bullet K} \\
+        {\bullet G \times G} &&& {\bullet K \times K} \\
+        &&&&& {\bullet K}
+        \arrow["{\pi_K}"{description}, from=2-4, to=1-6]
+        \arrow["{\pi_K}"{description}, from=2-4, to=3-6]
+        \arrow["{(\psi \phi) \times (\psi \phi)}"{description}, from=2-1, to=2-4]
+        \arrow["{\psi \phi \pi_G}"{description}, curve={height=-18pt}, from=2-1, to=1-6]
+        \arrow["{\psi \phi \pi_G}"{description}, curve={height=24pt}, from=2-1, to=3-6]
+      \end{tikzcd}\]
+      commutes. Again by universal property of products, we know that there exists unique morphisms $\phi \times \phi: G \times G \arr H \times H$ and $\psi \times \psi: H \times H \arr K \times K$ such that 
+      \[\begin{tikzcd}
+        {\bullet G \times G} && {\bullet H \times H} && {\bullet K \times K} \\
+        \\
+        {\bullet G} && {\bullet H} && {\bullet K}
+        \arrow["{\pi_G}"{description}, from=1-1, to=3-1]
+        \arrow["\phi"{description}, from=3-1, to=3-3]
+        \arrow["\psi"{description}, from=3-3, to=3-5]
+        \arrow["{\psi \times \psi}"{description}, from=1-3, to=1-5]
+        \arrow["{\phi \times \phi}"{description}, from=1-1, to=1-3]
+        \arrow["{\pi_H}"{description}, from=1-3, to=3-3]
+        \arrow["{\pi_K}"{description}, from=1-5, to=3-5]
+        \arrow["{(\psi \times \psi) (\phi \times \phi)}"{description}, curve={height=-18pt}, from=1-1, to=1-5]
+      \end{tikzcd}\]
+      commutes. However, since such a morphism $G \times G \arr K \times K$ making the baove diagram commutes is unique, it must be the case that $(\psi \phi) \times (\psi \phi)=(\psi \times \psi)(\phi \times \phi)$.
+    \end{proof}
+
+
+\end{document}
+

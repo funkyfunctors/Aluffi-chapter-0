@@ -1449,8 +1449,26 @@ All elements $x$ here satisfy $x^2 = 1$. Thus the two multiplication tables cann
       Show that if $G,H$ are abelian groups, then $G \times H$ satisfies the universal property for coproducts in $\mb{Ab}$.
     \end{exercise}
     \begin{proof}
-      Consider some group $K$ such that there are morphisms $f_G:G \arr K$ and $f_H:H \arr K$. Define morphisms $i_G:G \arr G \times H$ as $g \mapsto (g, e_H)$ and $i_H: H \arr G \times H$ as $h \mapsto (e_G,h)$.
+      Consider some group $K$ such that there are homomorphisms $f_G:G \arr K$ and $f_H:H \arr K$. Define homomorphisms $i_G:G \arr G \times H$ as $g \mapsto (g, e_H)$ and $i_H: H \arr G \times H$ as $h \mapsto (e_G,h)$. Notice that if there exists homomorphism $f_{G\times H}:G\times H \arr K$ such that 
+      \[\begin{tikzcd}
+        {\bullet G} \\
+        && {\bullet G \times H} && {\bullet K} \\
+        {\bullet H}
+        \arrow["{f_{G \times H}}", from=2-3, to=2-5]
+        \arrow["{i_G}", from=1-1, to=2-3]
+        \arrow["{i_H}", from=3-1, to=2-3]
+        \arrow["{f_G}"', curve={height=-18pt}, from=1-1, to=2-5]
+        \arrow["{f_H}", curve={height=18pt}, from=3-1, to=2-5]
+      \end{tikzcd}\]
+      commutes, then $(g,e_H)$ must be mapped to $f_G(g)$, likewise for $(e_G,h)$. However, since we want $f_{G \times H}$ to be homomorphism, the only way to do so would be mapping $(g,h) \mapsto f_G(g)f_H(h)$ because $(g,h)=(g,e_H)(e_G,h)$. Clearly, this set morphism is unique. We just need to check if $f_{G \times H}$ is indeed group homomorphism. Let $g_1, g_2 \in G$ and $h_1, h_2$. We see that 
+      \begin{align*}
+        f_{G\times H}(g_1, h_1) f_{G \times H} (g_2, h_2) &= (f_G(g_1)f_H(h_1))(f_G(g_2) f_H(h_2)) &\text{(definition of function)} \\
+        &= (f_G(g_1)f_G(g_2))(f_H(h_1)f_H(h_2)) &\text{($K$ is abelian group)} \\
+        &= f_G(g_1g_2) f_H(h_1h_2) &\text{($f_G$ and $f_H$ are group homomorphism)} \\
+        &=f_{G \times H} (g_1g_2, h_1h_2)
+      \end{align*}
     \end{proof}
+    \textbf{Comments.} Notice that for the above proof to work we require all such groups, $K$, to be abelian. This is why merely $G$ and $H$ being abelian is insufficent to conclude that $G \times H$ is coproduct.
 
 \end{document}
 

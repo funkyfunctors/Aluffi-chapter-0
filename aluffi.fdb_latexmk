@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1679332975 "/home/work/Documents/Aluffi chapter 0/aluffi.tex" "aluffi.pdf" "aluffi" 1679332977
+["pdflatex"] 1679378652 "/home/work/Documents/Aluffi chapter 0/aluffi.tex" "aluffi.pdf" "aluffi" 1679378653
   "/etc/texmf/web2c/texmf.cnf" 1678247487 475 c0e671620eb5563b2130f56340a5fde8 ""
   "/home/work/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbi1095.600pk" 1678770164 38312 6f865acf9403a99197b894521bbd78ee ""
   "/home/work/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/eccc1200.600pk" 1678769527 30556 a2ffea8e0bbe695580d7ec46ac6eb156 ""
@@ -15,7 +15,7 @@
   "/home/work/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/ecti0800.600pk" 1678772004 24944 f70f5387de45759575e4cea678d37154 ""
   "/home/work/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/ecti1095.600pk" 1678769525 35180 1fe0968e5ff5585af38550d0ba0a0c2a ""
   "/home/work/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1095.600pk" 1679236281 12644 ea1aa6dd5b7694ddf82305127ab9fe93 ""
-  "/home/work/Documents/Aluffi chapter 0/aluffi.tex" 1679332972 73507 110e197a34c61a34cd5a9a896848ef73 ""
+  "/home/work/Documents/Aluffi chapter 0/aluffi.tex" 1679378651 73996 ccaaa83fadd0e92e99b3812ff802420d ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/ecbi0600.tfm" 1136768653 3072 003f289d7450a9a9eb8e1306360106fb ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/ecbi0800.tfm" 1136768653 3072 356816d08702a080511d9b4663f7e425 ""
@@ -290,10 +290,10 @@
   "/usr/share/texmf/web2c/texmf.cnf" 1644012257 39432 7155514e09a3d69036fac785183a21c2 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1678247832 128028 f533b797fba58d231669ea19e894e23e ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1678247840 1405643 a227008aadaf86a78d7cf69d203680e9 ""
-  "aluffi.aux" 1679332976 2083 fe1558d06da8995cf86cf769f6292cb0 "pdflatex"
-  "aluffi.out" 1679332976 1578 dec9f240040430e6184896b4225dc8f7 "pdflatex"
-  "aluffi.tex" 1679332972 73507 110e197a34c61a34cd5a9a896848ef73 ""
-  "aluffi.toc" 1679332976 799 2861f9620ed1d15618edb2048faae572 "pdflatex"
+  "aluffi.aux" 1679378653 2083 fe1558d06da8995cf86cf769f6292cb0 "pdflatex"
+  "aluffi.out" 1679378653 1578 dec9f240040430e6184896b4225dc8f7 "pdflatex"
+  "aluffi.tex" 1679378651 73996 ccaaa83fadd0e92e99b3812ff802420d ""
+  "aluffi.toc" 1679378653 799 2861f9620ed1d15618edb2048faae572 "pdflatex"
   "mcode.sty" 1678660365 10751 a55df75213af123b13601aed162b164b ""
   "quiver.sty" 1678660309 1606 b07b3961e34ab8ddf2aa4cb10fd701dc ""
   (generated)

@@ -141,26 +141,26 @@
 
 \chapter{Preliminaries: Set theories and categories}
   \section{Naive Set Theory, Sets}
-  \begin{exercise}
-  Russel's paradox.
-  \end{exercise}
-  \begin{proof}
-  Assume that $R = \{x~\vert~x\notin x\}$ is a set. There are two options, either $R\in R$ or $R\notin R$. But if $R\in R$, then $R$ satisfies the condition to be in $R$ which is $R\notin R$. Contradiction. Thus $R\notin R$ must hold. Hence $R$ cannot satisfy the condition to be in $R$. Thus $R\notin R$ is false. Contradiction.
-\end{proof}
+    \begin{exercise}
+      Russel's paradox.
+    \end{exercise}
+    \begin{proof}
+      Assume that $R = \{x~\vert~x\notin x\}$ is a set. There are two options, either $R\in R$ or $R\notin R$. But if $R\in R$, then $R$ satisfies the condition to be in $R$ which is $R\notin R$. Contradiction. Thus $R\notin R$ must hold. Hence $R$ cannot satisfy the condition to be in $R$. Thus $R\notin R$ is false. Contradiction.
+    \end{proof}
   
-\begin{exercise}
-If $\sim$ is an equivalence relation on a set $S$, then the corresponding family $\mathcal{P}_\sim$ is a partition of $S$: that is, its elements are nonempty, disjoint and their union in $S$.  
-\end{exercise}
- \begin{proof}
- An arbitrary element of $\mathcal{P}_\sim$ is $[s]_\sim$ with $s\in S$. We have $[s]_\sim =\{t\in S~\vert~t\sim s\}$. From reflexivity, we get that $s\in [s]_\sim$. Hence each $[s]_\sim$ is non-empty. It clearly also follows then that
-$$S = \bigcup_{s\in S}[s]_\sim = \bigcup\mathcal{P}_\sim.$$
-Now consider $s,t\in S$, and assume that $[s]_\sim\cap [t]_\sim \neq \emptyset$. Thus there is some $u\in [s]_\sim \cap [t]_\sim$. Hence we have that $u\sim s$ and $u\sim t$. From symmetry, we obtain that $s\sim u$ and $u\sim t$. Hence $s \sim t$ by transitivity. From symmetry we also have $t\sim s$. We now prove that $[s]_\sim = [t]_\sim$. Take $v\in [s]_\sim$, then $v\sim s$. We also have $s\sim t$, hence from transitivity it follows that $v\sim t$ hence $v\in [t]_\sim$. Conversely, if $v\in [t]_\sim$, then $v\sim t$. Since we also have $t\sim s$, it follows from transitivity that $v\sim s$ and thus $v\in [t]_\sim$. Thus we have shown that if $[s]_\sim\cap [t]_\sim\neq \emptyset$, then $[s]_\sim = [t]_\sim$. We obtain by contraposition that if $[s]_\sim$ and $[t]_\sim$ are distinct, then their intersection is empty.
- \end{proof}
- \begin{exercise}
- Given a partition $\mathcal{P}$ on a set $S$, there is an equivalence relation $\sim$ such that $\mathcal{P}$ is the associated partition.
-\end{exercise}
-\begin{proof}
-Define $a\sim b$ if and only if  there is some $A\in \mathcal{P}$ such that $a,b\in A$. \\
+    \begin{exercise}
+      If $\sim$ is an equivalence relation on a set $S$, then the corresponding family $\mathcal{P}_\sim$ is a partition of $S$: that is, its elements are nonempty, disjoint and their union in $S$.  
+    \end{exercise}
+    \begin{proof}
+      An arbitrary element of $\mathcal{P}_\sim$ is $[s]_\sim$ with $s\in S$. We have $[s]_\sim =\{t\in S~\vert~t\sim s\}$. From reflexivity, we get that $s\in [s]_\sim$. Hence each $[s]_\sim$ is non-empty. It clearly also follows then that
+      $$S = \bigcup_{s\in S}[s]_\sim = \bigcup\mathcal{P}_\sim.$$
+      Now consider $s,t\in S$, and assume that $[s]_\sim\cap [t]_\sim \neq \emptyset$. Thus there is some $u\in [s]_\sim \cap [t]_\sim$. Hence we have that $u\sim s$ and $u\sim t$. From symmetry, we obtain that $s\sim u$ and $u\sim t$. Hence $s \sim t$ by transitivity. From symmetry we also have $t\sim s$. We now prove that $[s]_\sim = [t]_\sim$. Take $v\in [s]_\sim$, then $v\sim s$. We also have $s\sim t$, hence from transitivity it follows that $v\sim t$ hence $v\in [t]_\sim$. Conversely, if $v\in [t]_\sim$, then $v\sim t$. Since we also have $t\sim s$, it follows from transitivity that $v\sim s$ and thus $v\in [t]_\sim$. Thus we have shown that if $[s]_\sim\cap [t]_\sim\neq \emptyset$, then $[s]_\sim = [t]_\sim$. We obtain by contraposition that if $[s]_\sim$ and $[t]_\sim$ are distinct, then their intersection is empty.
+    \end{proof}
+    \begin{exercise}
+      Given a partition $\mathcal{P}$ on a set $S$, there is an equivalence relation $\sim$ such that $\mathcal{P}$ is the associated partition.
+    \end{exercise}
+    \begin{proof}
+      Define $a\sim b$ if and only if  there is some $A\in \mathcal{P}$ such that $a,b\in A$. \\
 Let us prove that the relation is an equivalence relation. Take any $a\in S$. Since $\mathcal{P}$ is a partition, there is some $A\in \mathcal{P}$ such that $a\in A$. Hence $a\sim a$ and thus the relation is reflexive.\\
 Assume that $a\sim b$, then there is some $A\in \mathcal{P}$ such that $a,b\in A$. But then clearly $b,a\in A$. Hence $b\sim a$. Hence the relation is symmetric.\\
 Assume that $a\sim b$ and $b\sim c$, then there are $A,B\in \mathcal{P}$ such that $a,b\in A$ and $b,c\in B$. But then $b\in A\cap B$. By the property of a partition, we get that $A=B$. Hence $a,c\in A$. Thus $a\sim c$. And the relation is transitive.\\
@@ -1445,6 +1445,12 @@ All elements $x$ here satisfy $x^2 = 1$. Thus the two multiplication tables cann
       commutes. However, since such a morphism $G \times G \arr K \times K$ making the baove diagram commutes is unique, it must be the case that $(\psi \phi) \times (\psi \phi)=(\psi \times \psi)(\phi \times \phi)$.
     \end{proof}
 
+    \begin{exercise}
+      Show that if $G,H$ are abelian groups, then $G \times H$ satisfies the universal property for coproducts in $\mb{Ab}$.
+    \end{exercise}
+    \begin{proof}
+      Consider some group $K$ such that there are morphisms $f_G:G \arr K$ and $f_H:H \arr K$. Define morphisms $i_G:G \arr G \times H$ as $g \mapsto (g, e_H)$ and $i_H: H \arr G \times H$ as $h \mapsto (e_G,h)$.
+    \end{proof}
 
 \end{document}
 
